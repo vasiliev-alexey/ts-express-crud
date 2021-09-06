@@ -9,12 +9,15 @@ jobs:
       - name: Checkout 🔥️
         uses: actions/checkout@v2
 
+      - name: Node inst
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
       - name: Install Packages 🧳
         run: |
           npm install
 
-      - name: npm 7
-        run: npm i -g npm@7 --registry=https://registry.npmjs.org
 
       - name: build 🏗️
         run: |
