@@ -15,6 +15,7 @@ jobs:
 
       - name: build 🏗️
         run: |
+          npm install npm -g
           npm --version
           npm run build
 
