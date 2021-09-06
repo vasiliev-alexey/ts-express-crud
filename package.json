@@ -14,7 +14,8 @@
     "prepare": "husky install",
     "pre-commit": "lint-staged",
     "prebuild": "cd packages/frontend  && npm i --legacy-peer-deps  --dev",
-    "build": "npm run build:prod --workspace client  --workspace backend"
+    "build": "npm run build:prod --workspace client  --workspace backend",
+    "start": "node dist/backend/index.js"
   },
   "engines": {
     "npm": "7.x"
