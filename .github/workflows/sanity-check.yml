@@ -42,4 +42,4 @@ jobs:
 
       - name: webpack  build
         run: |
-          npm run build:prod
+          npm run build
