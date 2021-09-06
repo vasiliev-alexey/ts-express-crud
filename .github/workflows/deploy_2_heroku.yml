@@ -12,7 +12,7 @@ jobs:
       - name: Node inst
         uses: actions/setup-node@v2
         with:
-          node-version: '16'
+          node-version: "16"
 
       - name: npm vers 🏗️
         run: |
@@ -23,12 +23,10 @@ jobs:
           npm install --legacy-peer-deps
           npm install --legacy-peer-deps -ws
 
-
       - name: Install Packages front 🧳
         run: |
           npm install --legacy-peer-deps
           working-directory: ./packages/frontend
-
 
       - name: Install Packages back 🧳
         run: |
@@ -40,12 +38,33 @@ jobs:
           npm --version
           npm run build
 
-      - name: Deploy 🚀
-          -  uses: actions/setup-node@v2
-             with:
-               node-version: '16'
-          -  uses: akhileshns/heroku-deploy@v3.12.12
-             with:
-               heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-               heroku_app_name: ${{secrets.HEROKU_APP_NAME}}
-               heroku_email: ${{secrets.HEROKU_EMAIL}}
+      - name: build heroku 🏗️
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+      - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: ${{secrets.HEROKU_APP_NAME}}
+          heroku_email: ${{secrets.HEROKU_EMAIL}}
+
+  #      - name: Deploy 🚀 |
+  #        run:|
+  #        -  uses: actions/setup-node@v2
+  #        -  uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+  #           with:
+  #             node-version: '16'
+  #             heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+  #             heroku_app_name: ${{secrets.HEROKU_APP_NAME}}
+  #             heroku_email: ${{secrets.HEROKU_EMAIL}}
+#  build:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/setup-node@v2
+#        with:
+#          node-version: "16"
+#      - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+#        with:
+#          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+#          heroku_app_name: ${{secrets.HEROKU_APP_NAME}}
+#          heroku_email: ${{secrets.HEROKU_EMAIL}}
