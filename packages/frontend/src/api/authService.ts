@@ -43,5 +43,5 @@ class AuthService {
   };
 }
 
-const authService = new AuthService("http://localhost:5000/auth");
+const authService = new AuthService("http://localhost:4000/auth");
 export default authService;

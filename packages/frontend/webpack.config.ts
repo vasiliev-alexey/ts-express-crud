@@ -17,10 +17,15 @@ interface Configuration extends WebpackConfiguration {
   devServer?: WebpackDevServerConfiguration;
 }
 
-const webpackConfig = (env: {
-  production: boolean;
-  development: boolean;
-}): Configuration => ({
+const webpackConfig = (
+  env: {
+    production: boolean;
+    development: boolean;
+  },
+  arg: {
+    mode: string;
+  }
+): Configuration => ({
   entry: "./src/index.tsx",
   ...(env.production || !env.development ? {} : { devtool: "source-map" }),
   // https://github.com/DefinitelyTyped/DefinitelyTyped/issues/27570
@@ -45,7 +50,11 @@ const webpackConfig = (env: {
     plugins: [new TsconfigPathsPlugin()],
   },
   output: {
-    path: path.join(__dirname, "dist"),
+    path: path.join(
+      __dirname,
+      arg.mode === "production" ? "../../dist/client/" : "",
+      "dist"
+    ),
     filename: "index.js",
   },
 

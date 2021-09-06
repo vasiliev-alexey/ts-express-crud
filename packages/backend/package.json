@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --exec ts-node src/index.ts"
+    "start": "nodemon --exec ts-node src/index.ts",
+    "build:prod": "tsc  --project  tsconfig-prod.json"
   },
   "keywords": [],
   "author": "vasiliev-alexey",

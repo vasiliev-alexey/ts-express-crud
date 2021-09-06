@@ -12,9 +12,9 @@ import {
   DatabaseUserInterface,
 } from "./Interfaces/UserInterface";
 import authRouter from "./rourters/auth";
-import testRouter from "./rourters/test";
 import postsRouter from "./rourters/posts";
 import express from "express";
+import * as path from "path";
 
 const LocalStrategy = passportLocal.Strategy;
 
@@ -42,7 +42,7 @@ app.use(
   cors({
     methods: "GET,POST,PATCH,DELETE,OPTIONS",
     optionsSuccessStatus: 200,
-    origin: process.env.ORIGIN_HOST,
+    origin: "http://localhost",
   })
 );
 
@@ -95,7 +95,23 @@ passport.deserializeUser((id: string, cb) => {
 // Routes
 app.use("/auth", authRouter);
 app.use("/post", postsRouter);
-app.use("/test", testRouter);
+
+let basePath = "../../dist/client/dist";
+
+if (process.env.NODE_ENV === "development") {
+  basePath = "../client/dist/";
+}
+
+app.use(express.static(path.resolve(__dirname, basePath)));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, basePath, "index.html"));
+});
+
+console.log(
+  "path.resolve(__dirname, basePath)",
+  path.resolve(__dirname, basePath)
+);
 
 app.listen(4000, () => {
   console.log("Server Started");

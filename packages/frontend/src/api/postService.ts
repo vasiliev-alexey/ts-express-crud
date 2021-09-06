@@ -79,5 +79,5 @@ class PostService {
   };
 }
 
-const postService = new PostService("http://localhost:5000/post");
+const postService = new PostService("http://localhost:4000/post");
 export default postService;

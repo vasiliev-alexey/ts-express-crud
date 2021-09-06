@@ -13,3 +13,5 @@ doc/Заметки.md
 *.tgz
 
 /deploy_dir
+
+dist/
