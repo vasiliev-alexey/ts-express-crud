@@ -21,6 +21,7 @@ jobs:
       - name: Install Packages 🧳
         run: |
           npm install --legacy-peer-deps
+          npm install --legacy-peer-deps -ws
 
 
       - name: build 🏗️
