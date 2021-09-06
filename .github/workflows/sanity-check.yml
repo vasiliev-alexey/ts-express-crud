@@ -24,13 +24,15 @@ jobs:
           npm install --legacy-peer-deps -ws
       - name: Install Packages front 🧳
         run: |
-          npm install --legacy-peer-deps
           working-directory: ./packages/frontend
+          npm install --legacy-peer-deps
+
 
       - name: Install Packages back 🧳
         run: |
-          npm install --legacy-peer-deps
           working-directory: ./packages/backend
+          npm install --legacy-peer-deps
+
 
       - name: Lint check
         run: |
