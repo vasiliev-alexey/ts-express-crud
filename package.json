@@ -5,6 +5,7 @@
   "private": true,
   "scripts": {
     "backend": "npm run start --workspace backend ",
+    "front": "npm run dev --workspace client ",
     "mongo": "docker-compose up",
     "lint": "eslint . && prettier --check .",
     "lint-staged": "lint-staged",

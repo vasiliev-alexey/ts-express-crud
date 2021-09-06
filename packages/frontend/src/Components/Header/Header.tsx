@@ -1,10 +1,15 @@
 import React, { Component } from "react";
-import { Avatar, Button, Col, Row } from "antd";
+import { Avatar, Button, Col, Row, Tooltip } from "antd";
 import { Header } from "antd/es/layout/layout";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { RootState } from "../../store/store";
-import { UserOutlined } from "@ant-design/icons";
+import {
+  UserOutlined,
+  LoginOutlined,
+  LogoutOutlined,
+  ProfileOutlined,
+} from "@ant-design/icons";
 import ToolBar from "./ToolBar";
 import { logout } from "../../store/authSlice";
 import { ThunkProps } from "../utils/types-helper";
@@ -37,25 +42,28 @@ export class SiteHeader extends Component<
           </Col>
           {!this.props.isAuthenticated ? (
             <Col flex="200px">
-              <Button
-                onClick={() => {
-                  this.props.history.push("/login");
-                }}
-              >
-                SignIn
-              </Button>
-
-              <Button
-                onClick={() => {
-                  this.props.history.push("/register");
-                }}
-              >
-                Register
-              </Button>
+              <Tooltip title="Вход" color="geekblue">
+                <Button
+                  icon={<LoginOutlined />}
+                  onClick={() => {
+                    this.props.history.push("/login");
+                  }}
+                />
+              </Tooltip>
+              <Tooltip title="Регистрация" color="geekblue">
+                <Button
+                  icon={<ProfileOutlined />}
+                  onClick={() => {
+                    this.props.history.push("/register");
+                  }}
+                />
+              </Tooltip>
             </Col>
           ) : (
             <Col flex="100px">
-              <Button onClick={this.props.logout}>Logout</Button>
+              <Tooltip title="Выход" color="geekblue">
+                <Button icon={<LogoutOutlined />} onClick={this.props.logout} />
+              </Tooltip>
             </Col>
           )}
         </Row>

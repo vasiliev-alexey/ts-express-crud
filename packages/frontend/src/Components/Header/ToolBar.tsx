@@ -1,17 +1,13 @@
-// function({ item, key, keyPath, domEvent })
-
 import React, { Component } from "react";
 import { Menu } from "antd";
 import { RootState } from "../../store/store";
 import { connect } from "react-redux";
-import { MenuInfo } from "rc-menu/lib/interface";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 
 class ToolBar extends Component<
   ReturnType<typeof mapStateToProps> & RouteComponentProps
 > {
-  #onClick = ({ key }: MenuInfo) => {
-    console.log(key);
+  #onClick = () => {
     this.props.history.push("/newAd");
   };
 

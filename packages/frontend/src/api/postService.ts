@@ -5,6 +5,7 @@ export interface PostDtoType {
   title: string;
   body: string;
   contacts: string;
+  comments?: { userName: string; body: string }[];
 }
 
 class PostService {
@@ -30,7 +31,7 @@ class PostService {
     }
   };
   editPost = async (data: PostDtoType): Promise<void> => {
-    const response = await axios.post(
+    await axios.post(
       `${this.authHost}/edit`,
       {
         data,
@@ -54,6 +55,27 @@ class PostService {
     });
 
     return res.data;
+  };
+
+  addComment = async ({
+    postId,
+    commentText,
+  }: {
+    postId: string;
+    commentText: string;
+  }): Promise<number> => {
+    await axios.post(
+      `${this.authHost}/addComment`,
+      {
+        postId,
+        commentText,
+      },
+      {
+        withCredentials: true,
+      }
+    );
+
+    return 201;
   };
 }
 

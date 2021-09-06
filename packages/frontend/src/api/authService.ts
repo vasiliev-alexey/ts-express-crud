@@ -38,10 +38,8 @@ class AuthService {
 
     return { userID: response.data.userId, userName: username };
   };
-  logout = async (): Promise<{ userID: string; userName: string }> => {
-    const response = await axios.get(`${this.authHost}/logout`, {});
-
-    return;
+  logout = async (): Promise<void> => {
+    await axios.get(`${this.authHost}/logout`, {});
   };
 }
 

@@ -1,15 +1,14 @@
 import express, { NextFunction, Request, Response } from "express";
 import Post from "../models/post";
-import { Logger } from "tslog";
+
 import { UserInterface } from "../Interfaces/UserInterface";
+import { Logger } from "tslog";
 
 const logger: Logger = new Logger({ name: "posts-logger" });
 
 const postsRouter = express.Router();
 
 function authChecker(req: Request, res: Response, next: NextFunction) {
-  console.log("sss");
-
   if (req.user || req.path === "/auth") {
     next();
   } else {
@@ -18,18 +17,29 @@ function authChecker(req: Request, res: Response, next: NextFunction) {
 }
 
 postsRouter.post("/new", authChecker, async (req, res) => {
+  logger.debug("post", "/new");
+
   const { title, contacts, body } = req?.body;
 
   const user = req.user as UserInterface;
 
-  await Post.insertMany({ title, contacts, body, userName: user.username });
+  await Post.create(
+    { title, contacts, body, userName: user.username },
+    (err, doc) => {
+      if (err) {
+        logger.error(err);
+        res.status(404).send({ message: err.message });
+      }
 
-  logger.debug("new new new user", title, contacts, req.user);
-  res.send("success");
+      logger.debug("new post saved");
+      res.status(201).send({ id: doc.id });
+    }
+  );
 });
 
 postsRouter.post("/edit", authChecker, async (req, res) => {
-  const { title, contacts, body, id } = req?.body;
+  logger.debug("post", "/edit", req?.body);
+  const { title, contacts, body, id } = req?.body.data;
 
   await Post.findByIdAndUpdate(
     { _id: id },
@@ -39,24 +49,37 @@ postsRouter.post("/edit", authChecker, async (req, res) => {
       body,
     }
   );
+  res.send("success");
+});
 
-  logger.debug("new new new user", title, contacts, req.user);
+postsRouter.post("/addComment", authChecker, async (req, res) => {
+  logger.debug("post", "/addComment", req?.body);
+  const { postId, commentText } = req?.body;
+  const user = req.user as UserInterface;
+  const data = await Post.findOne({ _id: postId });
+
+  const newComment = data.comments.create({
+    body: commentText,
+    userName: user.username,
+  });
+
+  data.comments.push(newComment);
+  data.save();
+
   res.send("success");
 });
 
 postsRouter.get("/list", async (req, res) => {
+  logger.debug("post", "/list");
   const data = await Post.find();
-
   logger.debug("data ", data);
-  res.send(data);
+  res.status(200).send(data);
 });
 
 postsRouter.get("/ad", async (req, res) => {
-  console.log("~~", req.params);
-  console.log("~~", req.query.id);
+  logger.debug("post", "/ad", req.query.id);
   const data = await Post.findOne({ _id: req.query.id });
-  //  logger.debug("data ", data);
-  res.send(data);
+  res.status(200).send(data);
 });
 
 export default postsRouter;

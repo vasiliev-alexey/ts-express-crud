@@ -36,7 +36,6 @@ class Advertisement extends Component<AdsIdProps> {
       this.setState({ adId, editMode: true });
 
       const ad = await postService.getById(adId);
-      console.log("ad", ad);
       this.setState({
         editorState: EditorState.createWithContent(
           convertFromRaw(JSON.parse(ad.body))
@@ -129,7 +128,6 @@ class Advertisement extends Component<AdsIdProps> {
             value={this.state.title}
           />
         </Form.Item>
-        <p>{this.state.editorState.getCurrentContent().getPlainText()}</p>
         <Form.Item {...tailLayout}>
           <Button
             type="primary"
@@ -139,8 +137,15 @@ class Advertisement extends Component<AdsIdProps> {
             Подать
           </Button>
 
-          <Button type="dashed" htmlType="submit" className="login-form-button">
-            Отменить
+          <Button
+            type="dashed"
+            htmlType="button"
+            className="login-form-button"
+            onClick={() => {
+              this.props.history.push("/");
+            }}
+          >
+            Закрыть
           </Button>
         </Form.Item>
       </Form>
