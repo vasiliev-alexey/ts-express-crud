@@ -13,6 +13,7 @@
     "lint:fix": "eslint . --fix && prettier --write .",
     "prepare": "husky install",
     "pre-commit": "lint-staged",
+    "prebuild": "cd packages/frontend  && npm i --legacy-peer-deps",
     "build": "cd packages/frontend  && npm i --legacy-peer-deps  && cd - &&  npm run build:prod --workspace client  --workspace backend"
   },
   "engines": {
