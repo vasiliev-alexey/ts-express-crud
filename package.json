@@ -15,6 +15,9 @@
     "pre-commit": "lint-staged",
     "build": "npm run build:prod --workspace client  --workspace backend"
   },
+  "engines": {
+    "npm": "7.x"
+  },
   "devDependencies": {
     "typescript": "^4.3.5",
     "eslint-plugin-react": "^7.24.0",
