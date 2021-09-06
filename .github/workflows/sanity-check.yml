@@ -44,3 +44,4 @@ jobs:
         run: |
           npm run build
           cp ./.github/workflows/package.json ./dist/
+          tree dist -L 2
