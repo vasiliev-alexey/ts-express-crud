@@ -20,7 +20,7 @@ jobs:
 
       - name: Install Packages 🧳
         run: |
-          npm install
+          npm install --legacy-peer-deps
 
 
       - name: build 🏗️
