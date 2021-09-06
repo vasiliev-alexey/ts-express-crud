@@ -9,13 +9,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-     - name: Node inst
-       uses: actions/setup-node@v2
-       with:
-         node-version: "16"
+      - name: Node inst
+        uses: actions/setup-node@v2
+        with:
+          node-version: "16"
 
-     - name: npm vers 🏗️
-       run: |
+      - name: npm vers 🏗️
+        run: |
           npm --version
 
       - name: Install Packages 🧳
@@ -43,6 +43,3 @@ jobs:
       - name: webpack  build
         run: |
           npm run build:prod
-
-
-
