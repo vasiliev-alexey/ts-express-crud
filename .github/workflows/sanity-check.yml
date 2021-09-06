@@ -43,3 +43,4 @@ jobs:
       - name: webpack  build
         run: |
           npm run build
+          cp ./.github/workflows/package.json ./dist/
