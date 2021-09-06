@@ -15,6 +15,7 @@ jobs:
 
       - name: build 🏗️
         run: |
+          npm --version
           npm run build
 
       - name: Deploy 🚀
