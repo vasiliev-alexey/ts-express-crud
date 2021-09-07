@@ -15,8 +15,10 @@ import authRouter from "./rourters/auth";
 import postsRouter from "./rourters/posts";
 import express from "express";
 import * as path from "path";
+import { Logger } from "tslog";
 
 const LocalStrategy = passportLocal.Strategy;
+const logger: Logger = new Logger({ name: "server" });
 
 dotenv.config();
 
@@ -97,22 +99,15 @@ app.use("/auth", authRouter);
 app.use("/post", postsRouter);
 
 let basePath = "../../dist/client/dist";
-
 if (process.env.NODE_ENV === "development") {
-  basePath = "../client/dist/";
+  basePath = "../../..//dist/client/dist/";
 }
-
 app.use(express.static(path.resolve(__dirname, basePath)));
 
 app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, basePath, "index.html"));
 });
 
-console.log(
-  "path.resolve(__dirname, basePath)",
-  path.resolve(__dirname, basePath)
-);
-
 app.listen(process.env.PORT || 4000, () => {
-  console.log("Server Started");
+  logger.info("Server Started");
 });

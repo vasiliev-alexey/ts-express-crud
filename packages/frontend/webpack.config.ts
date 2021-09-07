@@ -38,9 +38,9 @@ const webpackConfig = (
         "Origin, X-Requested-With, Content-Type, Accept",
     },
 
-    proxy: {
-      "*": "http://localhost:4000",
-    },
+    // proxy: {
+    //   "*": "http://localhost:4000",
+    // },
   },
 
   resolve: {

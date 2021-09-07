@@ -79,5 +79,5 @@ class PostService {
   };
 }
 
-const postService = new PostService("http://localhost:4000/post");
+const postService = new PostService(`${window.location.origin}/post`);
 export default postService;

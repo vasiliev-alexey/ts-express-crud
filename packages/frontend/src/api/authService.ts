@@ -43,5 +43,6 @@ class AuthService {
   };
 }
 
-const authService = new AuthService("http://localhost:4000/auth");
+const authService = new AuthService(`${window.location.origin}/auth`);
 export default authService;
+window.location.host;
