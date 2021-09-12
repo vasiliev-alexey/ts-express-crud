@@ -27,7 +27,7 @@ authRouter.post("/register", async (req, res) => {
   }
   User.findOne({ username }, async (err: Error, doc: DatabaseUserInterface) => {
     if (err) throw err;
-    if (doc) res.send("User Already Exists");
+    if (doc) res.status(401).send("User Already Exists");
     if (!doc) {
       const hashedPassword = await bcrypt.hash(password, 10);
       const newUser = new User({

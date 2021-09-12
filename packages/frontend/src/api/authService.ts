@@ -1,4 +1,5 @@
 import axios from "axios";
+import { pathToFileURL } from "url";
 
 class AuthService {
   constructor(private authHost: string) {}
@@ -25,18 +26,25 @@ class AuthService {
     username: string,
     password: string
   ): Promise<{ userID: string; userName: string }> => {
-    const response = await axios.post(
-      `${this.authHost}/register`,
-      {
-        username,
-        password,
-      },
-      {
-        withCredentials: true,
-      }
-    );
+    console.log("sswwwwwwwwwwwws");
 
-    return { userID: response.data.userId, userName: username };
+    try {
+      const response = await axios.post(
+        `${this.authHost}/register`,
+        {
+          username,
+          password,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      return { userID: response.data.userId, userName: username };
+    } catch (e) {
+      if (e.response.status === 401) {
+        throw e.response.data;
+      }
+    }
   };
   logout = async (): Promise<void> => {
     await axios.get(`${this.authHost}/logout`, {});

@@ -3,6 +3,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import authService from "../api/authService";
 
+interface customError {
+  errorMessage: string;
+}
+
 interface userCred {
   userID: string;
   userName: string;
@@ -28,27 +32,30 @@ export const loginWithEmailAndPassword = createAsyncThunk<
 >(
   "auth/login",
 
-  async ({ username, password }, { rejectWithValue }) => {
+  async ({ username, password }, thunkApi) => {
     try {
       const data = await authService.LoginUser(username, password);
       return { userID: data.userID, userName: data.userName };
     } catch (e) {
-      return rejectWithValue(e.message);
+      return thunkApi.rejectWithValue({ errorMessage: e.message });
     }
   }
 );
 
 export const registerWithNameAndPassword = createAsyncThunk<
   userCred,
-  { username: string; password: string }
+  { username: string; password: string },
+  { extra: { rejectValue: customError } }
 >(
   "auth/register",
 
   async ({ username, password }, { rejectWithValue }) => {
     try {
-      await authService.RegisterUser(username, password);
+      const user = await authService.RegisterUser(username, password);
+      return { userID: user.userID, userName: user.userName };
     } catch (e) {
-      return rejectWithValue(e.message);
+      console.log("errww", e);
+      return rejectWithValue({ errorMessage: e } as customError);
     }
   }
 );
@@ -57,6 +64,7 @@ type initStateType = {
   userId?: string;
   userName?: string;
   isAuthenticated: boolean;
+  errorMessage?: string;
 };
 
 const initState: initStateType = {
@@ -96,15 +104,18 @@ const counterSlice = createSlice({
 
     builder.addCase(registerWithNameAndPassword.pending, (state) => {
       state.isAuthenticated = false;
+      state.errorMessage = "";
     });
-    builder.addCase(registerWithNameAndPassword.rejected, (state) => {
+    builder.addCase(registerWithNameAndPassword.rejected, (state, action) => {
       state.userId = undefined;
       state.isAuthenticated = false;
+      state.errorMessage = (action.payload as customError).errorMessage;
     });
     builder.addCase(registerWithNameAndPassword.fulfilled, (state, action) => {
       state.userId = action.payload.userID;
       state.userName = action.payload.userName;
       state.isAuthenticated = true;
+      state.errorMessage = "";
     });
   },
 });

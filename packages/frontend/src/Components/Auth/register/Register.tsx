@@ -51,6 +51,11 @@ class Register extends Component<DispatchPropsType, StateType> {
         <Form.Item
           name="username"
           rules={[{ required: true, message: "Please input your Username!" }]}
+          extra={
+            this.props.auth.errorMessage && (
+              <p style={{ color: "red" }}>{this.props.auth.errorMessage}</p>
+            )
+          }
         >
           <Input
             name="username"
@@ -68,7 +73,6 @@ class Register extends Component<DispatchPropsType, StateType> {
             placeholder="Password"
           />
         </Form.Item>
-
         <Form.Item {...tailLayout}>
           <Button
             type="primary"
