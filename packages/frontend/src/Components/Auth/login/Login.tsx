@@ -31,9 +31,9 @@ class Login extends Component<DispatchPropsType, StateType> {
     username: string;
     password: string;
   }) => {
-    if (this.props.auth.isAuthenticated) {
-      this.props.logout();
-    }
+    // if (this.props.auth.isAuthenticated) {
+    //   this.props.logout();
+    // }
 
     this.props.loginWithEmailAndPass({
       username,
@@ -51,6 +51,7 @@ class Login extends Component<DispatchPropsType, StateType> {
         className="login-form"
         initialValues={{ username: "root", password: "root" }}
         onFinish={this.#onFinish}
+        data-testid={"login-form-data-id"}
       >
         <Form.Item
           name="username"
@@ -60,6 +61,7 @@ class Login extends Component<DispatchPropsType, StateType> {
             name="username"
             prefix={<UserOutlined className="site-form-item-icon" />}
             placeholder="Username"
+            data-testid={"login-form-username-data-id"}
           />
         </Form.Item>
         <Form.Item
@@ -70,6 +72,7 @@ class Login extends Component<DispatchPropsType, StateType> {
             prefix={<LockOutlined className="site-form-item-icon" />}
             type="password"
             placeholder="Password"
+            data-testid={"login-form-password-data-id"}
           />
         </Form.Item>
 
@@ -78,6 +81,7 @@ class Login extends Component<DispatchPropsType, StateType> {
             type="primary"
             htmlType="submit"
             className="login-form-button"
+            data-testid={"login-form-submit-data-id"}
           >
             Log in
           </Button>
