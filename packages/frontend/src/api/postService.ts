@@ -2,6 +2,8 @@ import axios from "axios";
 
 export interface PostDtoType {
   id: string;
+  _id?: string;
+
   title: string;
   body: string;
   contacts: string;

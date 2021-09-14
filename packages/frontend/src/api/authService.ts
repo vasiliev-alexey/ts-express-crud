@@ -1,5 +1,4 @@
 import axios from "axios";
-import { pathToFileURL } from "url";
 
 class AuthService {
   constructor(private authHost: string) {}

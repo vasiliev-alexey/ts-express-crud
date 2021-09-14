@@ -24,6 +24,7 @@ module.exports = {
       //  testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$',
       testMatch: ["**/packages/frontend/**/*.test.ts?(x)"],
 
+      moduleDirectories: ["node_modules", "src"],
       transform: {
         "^.+\\.tsx?$": "babel-jest",
 

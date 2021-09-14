@@ -35,7 +35,6 @@ class AdsList extends Component<DispatchPropsType> {
 
   async componentDidMount() {
     const data = await postService.getPosts();
-
     this.setState({ isLoading: true, data: data });
   }
 

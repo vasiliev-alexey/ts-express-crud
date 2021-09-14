@@ -45,6 +45,7 @@ class Register extends Component<DispatchPropsType, StateType> {
       <Form
         name="register_login"
         className="login-form"
+        data-testid={"register-form-data-id"}
         initialValues={{ username: "root", password: "root" }}
         onFinish={this.#onFinish}
       >
@@ -53,13 +54,19 @@ class Register extends Component<DispatchPropsType, StateType> {
           rules={[{ required: true, message: "Please input your Username!" }]}
           extra={
             this.props.auth.errorMessage && (
-              <p style={{ color: "red" }}>{this.props.auth.errorMessage}</p>
+              <p
+                data-testid={"register-form-data-error-id"}
+                style={{ color: "red" }}
+              >
+                {this.props.auth.errorMessage}
+              </p>
             )
           }
         >
           <Input
             name="username"
             prefix={<UserOutlined className="site-form-item-icon" />}
+            data-testid={"register-form-username-data-id"}
             placeholder="Username"
           />
         </Form.Item>
@@ -70,6 +77,7 @@ class Register extends Component<DispatchPropsType, StateType> {
           <Input
             prefix={<LockOutlined className="site-form-item-icon" />}
             type="password"
+            data-testid={"register-form-password-data-id"}
             placeholder="Password"
           />
         </Form.Item>
@@ -78,6 +86,7 @@ class Register extends Component<DispatchPropsType, StateType> {
             type="primary"
             htmlType="submit"
             className="login-form-button"
+            data-testid={"register-form-submit-data-id"}
           >
             Register
           </Button>

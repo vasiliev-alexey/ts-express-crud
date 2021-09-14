@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Avatar, Button, Col, Row, Tooltip } from "antd";
-import { Header } from "antd/es/layout/layout";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { RootState } from "../../store/store";
@@ -13,6 +12,7 @@ import {
 import ToolBar from "./ToolBar";
 import { logout } from "../../store/authSlice";
 import { ThunkProps } from "../utils/types-helper";
+import { Header } from "antd/lib/layout/layout";
 
 export class SiteHeader extends Component<
   RouteComponentProps &
@@ -22,7 +22,7 @@ export class SiteHeader extends Component<
   render(): React.ReactElement {
     return (
       <Header>
-        <div className="logo" />
+        <div data-testid={"header-data-id"} className="logo" />
 
         <Row>
           <Col flex="auto">
@@ -32,6 +32,7 @@ export class SiteHeader extends Component<
             {this.props.isAuthenticated && (
               <>
                 <Avatar
+                  data-testid={"header-with-auth-data-id"}
                   style={{
                     backgroundColor: "#87d068",
                   }}
@@ -44,6 +45,7 @@ export class SiteHeader extends Component<
             <Col flex="200px">
               <Tooltip title="Вход" color="geekblue">
                 <Button
+                  data-testid={"header-login-btn-data-id"}
                   icon={<LoginOutlined />}
                   onClick={() => {
                     this.props.history.push("/login");
@@ -52,6 +54,7 @@ export class SiteHeader extends Component<
               </Tooltip>
               <Tooltip title="Регистрация" color="geekblue">
                 <Button
+                  data-testid={"header-register-btn-data-id"}
                   icon={<ProfileOutlined />}
                   onClick={() => {
                     this.props.history.push("/register");
