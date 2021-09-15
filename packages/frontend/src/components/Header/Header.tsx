@@ -48,7 +48,7 @@ export class SiteHeader extends Component<
                   data-testid={"header-login-btn-data-id"}
                   icon={<LoginOutlined />}
                   onClick={() => {
-                    this.props.history.push("/login");
+                    this.props.history.push("/login/");
                   }}
                 />
               </Tooltip>
@@ -57,7 +57,7 @@ export class SiteHeader extends Component<
                   data-testid={"header-register-btn-data-id"}
                   icon={<ProfileOutlined />}
                   onClick={() => {
-                    this.props.history.push("/register");
+                    this.props.history.push("/register/");
                   }}
                 />
               </Tooltip>

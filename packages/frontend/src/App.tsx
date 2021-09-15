@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { BrowserRouter, Route } from "react-router-dom";
+import { Route } from "react-router-dom";
 import { HashRouter as Router } from "react-router-dom";
 
 import { connect } from "react-redux";
@@ -7,8 +7,8 @@ import { RootState } from "./store/store";
 
 import "./main.css";
 import { Layout } from "antd";
-import Routes from "./Components/Router";
-import SiteHeader from "./Components/Header/Header";
+import Routes from "./components/Router";
+import SiteHeader from "./components/Header/Header";
 const { Content, Footer } = Layout;
 
 class App extends Component<ReturnType<typeof mapStateToProps>> {
@@ -30,13 +30,13 @@ class App extends Component<ReturnType<typeof mapStateToProps>> {
           </Footer>
         </Layout>
 
-        <BrowserRouter>
+        <Router>
           <Route
             exact
             path="/"
             render={() => (this.props.isAuthenticated ? <div /> : <div />)}
           />
-        </BrowserRouter>
+        </Router>
       </>
     );
   }

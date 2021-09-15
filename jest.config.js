@@ -32,6 +32,10 @@ module.exports = {
           "jest-transform-stub",
       },
       moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
+
+      moduleNameMapper: {
+        "\\.(css|less|scss|sass)$": "identity-obj-proxy",
+      },
     },
     {
       displayName: "node",

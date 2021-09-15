@@ -21,6 +21,7 @@ class CommentList extends Component<PropsType> {
 
     return (
       <Modal
+        data-testid={"modal-comment-list-data-id"}
         title="Комментарии к объявлению"
         visible={this.props.visible}
         onOk={this.props.handleOk}
