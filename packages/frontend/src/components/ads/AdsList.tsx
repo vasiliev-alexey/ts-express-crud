@@ -69,6 +69,7 @@ class AdsList extends Component<DispatchPropsType> {
                     <>
                       <Tooltip title="Редактировать" color="cyan">
                         <Button
+                          data-testid={"modal-btn-edit-data-id"}
                           onClick={() => {
                             this.props.history.push(`/editAd/${rec._id}`);
                           }}
@@ -78,6 +79,7 @@ class AdsList extends Component<DispatchPropsType> {
                       </Tooltip>
                       <Tooltip title="Добавить комментарий" color="green">
                         <Button
+                          data-testid={"modal-btn-add-comment-data-id"}
                           type="ghost"
                           onClick={() =>
                             this.setState({
@@ -92,6 +94,7 @@ class AdsList extends Component<DispatchPropsType> {
                       {rec.comments && rec.comments.length > 0 && (
                         <Tooltip title="Комментарии" color="geekblue">
                           <Button
+                            data-testid={"modal-btn-list-comment-data-id"}
                             type="ghost"
                             onClick={() =>
                               this.setState({

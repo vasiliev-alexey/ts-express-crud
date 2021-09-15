@@ -25,8 +25,6 @@ class Comment extends Component<PropsType> {
 
     if (rez === 201) {
       this.props.handleOk();
-    } else {
-      //somthing wrong
     }
   };
 
@@ -41,12 +39,14 @@ class Comment extends Component<PropsType> {
         visible={this.props.visible}
         onOk={this.#handleOk}
         onCancel={this.props.handleCancel}
+        data-testid={"modal-form-data-id"}
       >
         <TextArea
           showCount
           maxLength={100}
           onChange={this.#onChange}
           value={this.state.commentText}
+          data-testid={"comment-textarea-data-id"}
         />
       </Modal>
     );

@@ -3,11 +3,11 @@ import axios from "axios";
 export interface PostDtoType {
   id: string;
   _id?: string;
-
+  userName?: string;
   title: string;
   body: string;
   contacts: string;
-  comments?: { userName: string; body: string }[];
+  comments?: { _id?: string; userName: string; body: string }[];
 }
 
 class PostService {

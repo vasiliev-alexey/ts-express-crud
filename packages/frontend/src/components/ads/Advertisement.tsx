@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import { Editor } from "react-draft-wysiwyg";
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+
 import { convertFromRaw, convertToRaw, EditorState } from "draft-js";
 import { Button, Form, Input } from "antd";
 import postService from "../../api/postService";
 import { RouteComponentProps } from "react-router-dom";
 import { FormInstance } from "antd/es/form";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 const tailLayout = {
   wrapperCol: {
@@ -88,6 +89,7 @@ class Advertisement extends Component<AdsIdProps> {
   render(): React.ReactElement {
     return (
       <Form
+        data-testid={"ad-form-data-id"}
         name="add_ew_post"
         ref={this.#formRef}
         initialValues={{ title: this.state.title, password: "root" }}

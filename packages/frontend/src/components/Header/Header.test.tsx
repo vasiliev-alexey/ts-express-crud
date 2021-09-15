@@ -47,7 +47,6 @@ describe("Header comp is function", () => {
     expect(avatar).toBeInTheDocument();
     fireEvent.click(menu);
     fireEvent.click(menuItem);
-    screen.debug();
   });
 
   test("Header   page redirect to root", () => {

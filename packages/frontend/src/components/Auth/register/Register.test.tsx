@@ -70,7 +70,6 @@ describe("Register comp is function", () => {
         </Provider>
       </MemoryRouter>
     );
-    screen.debug();
     expect(screen.queryAllByTestId("register-form-data-id").length).toBe(0);
   });
 
