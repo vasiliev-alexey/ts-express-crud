@@ -40,7 +40,7 @@ module.exports = {
     {
       displayName: "node",
 
-      testMatch: ["**/api/**/*.test.ts?(x)"],
+      testMatch: ["**/backend/**/*.test.ts?(x)"],
       clearMocks: true,
       resetMocks: true,
       testEnvironment: "node",

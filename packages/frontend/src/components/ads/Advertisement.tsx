@@ -106,6 +106,7 @@ class Advertisement extends Component<AdsIdProps> {
             placeholder="Продам гараж"
             value={this.state.title}
             onChange={this.#handleChangeTitle}
+            data-testid={"ad-form-title-data-id"}
           />
         </Form.Item>
         <Editor
@@ -128,6 +129,7 @@ class Advertisement extends Component<AdsIdProps> {
             name="contacts"
             placeholder="Неизвестная черепаха,  живущая на острове"
             value={this.state.title}
+            data-testid={"ad-form-contacts-data-id"}
           />
         </Form.Item>
         <Form.Item {...tailLayout}>
@@ -135,6 +137,7 @@ class Advertisement extends Component<AdsIdProps> {
             type="primary"
             htmlType="submit"
             className="login-form-button"
+            data-testid={"ad-form-submit-data-id"}
           >
             Подать
           </Button>
