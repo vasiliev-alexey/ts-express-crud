@@ -42,7 +42,7 @@ postsRouter.post("/new", authChecker, async (req, res) => {
 });
 
 postsRouter.post("/edit", authChecker, async (req, res) => {
-  logger.debug("post", "/edit", req?.body);
+  logger.debug("post", "/edit", req?.body.data);
   const { title, contacts, body, id } = req?.body.data;
 
   await Post.findByIdAndUpdate(
