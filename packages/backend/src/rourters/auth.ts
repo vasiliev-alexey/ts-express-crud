@@ -10,6 +10,8 @@ const logger: Logger = new Logger({ name: "authLogger" });
 const authRouter = express.Router();
 
 authRouter.post("/register", async (req, res) => {
+  logger.debug("/register");
+
   const { username, password } = req?.body;
   if (
     !username ||
@@ -41,8 +43,10 @@ authRouter.post("/login", passport.authenticate("local"), (req, res) => {
 
   if (req.user) {
     const dbUser = req.user as UserInterface;
+    logger.debug("user defined");
     res.send({ userId: dbUser.id, userName: dbUser.username });
   } else {
+    logger.debug("user NOT defined");
     res.send({});
   }
 });

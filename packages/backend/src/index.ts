@@ -28,6 +28,8 @@ mongoose.connect(
     useUnifiedTopology: true,
   },
   (err) => {
+    console.log("process.env.MONGO_URL", process.env.MONGO_URL);
+
     if (err) throw err;
     logger.info("Connected To Mongo");
   }
@@ -61,6 +63,7 @@ passport.use(
     User.findOne(
       { username: username },
       (err: Error, user: DatabaseUserInterface) => {
+        logger.debug("ddddddddddddddddddd");
         if (err) throw err;
         if (!user) return done(null, false);
         bcrypt.compare(password, user.password, (err, result: boolean) => {
@@ -105,6 +108,8 @@ app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, basePath, "index.html"));
 });
 
-app.listen(process.env.PORT || 4000, () => {
+const server = app.listen(process.env.PORT || 4000, () => {
   logger.info("Server Started");
 });
+
+export default server;
