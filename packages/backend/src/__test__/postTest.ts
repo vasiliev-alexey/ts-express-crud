@@ -1,4 +1,4 @@
-import request, { SuperAgentTest } from "supertest";
+import request from "supertest";
 
 import { MongoMemoryServer } from "mongodb-memory-server";
 import Post from "../models/post";
