@@ -1,9 +1,6 @@
 import express from "express";
-import User from "../User";
-import {
-  DatabaseUserInterface,
-  UserInterface,
-} from "../Interfaces/UserInterface";
+import User from "../models/user";
+import { DatabaseUserInterface, UserInterface } from "../models/UserInterface";
 import bcrypt from "bcryptjs";
 import passport from "passport";
 import { Logger } from "tslog";
@@ -13,8 +10,6 @@ const logger: Logger = new Logger({ name: "authLogger" });
 const authRouter = express.Router();
 
 authRouter.post("/register", async (req, res) => {
-  console.log("s00000000000");
-
   const { username, password } = req?.body;
   if (
     !username ||
@@ -51,12 +46,6 @@ authRouter.post("/login", passport.authenticate("local"), (req, res) => {
     res.send({});
   }
 });
-
-// authRouter.get("/user", (req, res) => {
-//   console.log("sssssssssssssssssssssssssssss");
-//   res.send(req.user);
-//   //res.send({ success: true });
-// });
 
 authRouter.get("/logout", (req, res) => {
   req.logout();

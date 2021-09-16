@@ -1,7 +1,7 @@
 import express, { NextFunction, Request, Response } from "express";
 import Post from "../models/post";
 
-import { UserInterface } from "../Interfaces/UserInterface";
+import { UserInterface } from "../models/UserInterface";
 import { Logger } from "tslog";
 
 const logger: Logger = new Logger({ name: "posts-logger" });

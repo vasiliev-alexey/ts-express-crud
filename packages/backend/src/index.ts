@@ -5,12 +5,9 @@ import passportLocal from "passport-local";
 import cookieParser from "cookie-parser";
 import session from "express-session";
 import bcrypt from "bcryptjs";
-import User from "./User";
+import User from "./models/user";
 import dotenv from "dotenv";
-import {
-  UserInterface,
-  DatabaseUserInterface,
-} from "./Interfaces/UserInterface";
+import { UserInterface, DatabaseUserInterface } from "./models/UserInterface";
 import authRouter from "./rourters/auth";
 import postsRouter from "./rourters/posts";
 import express from "express";
@@ -32,7 +29,7 @@ mongoose.connect(
   },
   (err) => {
     if (err) throw err;
-    console.log("Connected To Mongo");
+    logger.info("Connected To Mongo");
   }
 );
 
