@@ -22,6 +22,7 @@ authRouter.post("/register", async (req, res) => {
     res.send("Improper Values");
     return;
   }
+  logger.debug("check user in db");
   User.findOne({ username }, async (err: Error, doc: DatabaseUserInterface) => {
     if (err) throw err;
     if (doc) res.status(401).send("User Already Exists");
