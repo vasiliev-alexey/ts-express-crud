@@ -7,6 +7,7 @@ import User from "../models/user";
 import bcrypt from "bcryptjs";
 import * as http from "http";
 import { Logger } from "tslog";
+import mongoose from "mongoose";
 
 const logger: Logger = new Logger({ name: "test-posts-logger" });
 
@@ -50,6 +51,8 @@ describe("test post routes", function () {
   });
 
   afterAll(async () => {
+    await mongoose.connection.close();
+
     if (mongoServer) {
       await mongoServer.stop();
     }
