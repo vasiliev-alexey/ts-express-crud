@@ -9,15 +9,19 @@ const logger: Logger = new Logger({ name: "posts-logger" });
 const postsRouter = express.Router();
 
 function authChecker(req: Request, res: Response, next: NextFunction) {
+  logger.debug("checker", req.path);
   if (req.user || req.path === "/auth") {
+    logger.debug("checker ->");
     next();
   } else {
+    logger.debug("checker !!!");
     res.status(404).send({ message: "Not auth" });
   }
 }
 
 postsRouter.post("/new", authChecker, async (req, res) => {
-  logger.debug("post", "/new");
+  logger.debug("post", "/new", req?.body);
+  logger.info("post", "/new", req?.body);
 
   const { title, contacts, body } = req?.body;
 
