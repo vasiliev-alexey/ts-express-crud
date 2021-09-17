@@ -13,9 +13,17 @@ class ToolBar extends Component<
 
   render() {
     return (
-      <Menu theme="dark" mode="horizontal" onClick={this.#onClick}>
+      <Menu
+        data-testid={"menu-addAdd-data-id"}
+        theme="dark"
+        mode="horizontal"
+        onClick={this.#onClick}
+      >
         {this.props.isAuthenticated && (
-          <Menu.Item key={"add-ads"}>{`Подать объявление`}</Menu.Item>
+          <Menu.Item
+            data-testid={"ToolBar-addAdd-data-id"}
+            key={"add-ads"}
+          >{`Подать объявление`}</Menu.Item>
         )}
       </Menu>
     );

@@ -3,7 +3,7 @@ import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { RootState } from "../../../store/store";
-import { registerWithNameAndPassword } from "../../../store/authSlice";
+import { loginWithEmailAndPassword, logout } from "../../../store/authSlice";
 import { ThunkProps } from "../../utils/types-helper";
 import { Redirect } from "react-router-dom";
 
@@ -23,7 +23,7 @@ type StateType = {
   passwordValue: string;
 };
 
-class Register extends Component<DispatchPropsType, StateType> {
+class Login extends Component<DispatchPropsType, StateType> {
   #onFinish = ({
     username,
     password,
@@ -31,7 +31,11 @@ class Register extends Component<DispatchPropsType, StateType> {
     username: string;
     password: string;
   }) => {
-    this.props.registerUser({
+    // if (this.props.auth.isAuthenticated) {
+    //   this.props.logout();
+    // }
+
+    this.props.loginWithEmailAndPass({
       username,
       password,
     });
@@ -43,24 +47,21 @@ class Register extends Component<DispatchPropsType, StateType> {
 
     return (
       <Form
-        name="register_login"
+        name="normal_login"
         className="login-form"
         initialValues={{ username: "root", password: "root" }}
         onFinish={this.#onFinish}
+        data-testid={"login-form-data-id"}
       >
         <Form.Item
           name="username"
           rules={[{ required: true, message: "Please input your Username!" }]}
-          extra={
-            this.props.auth.errorMessage && (
-              <p style={{ color: "red" }}>{this.props.auth.errorMessage}</p>
-            )
-          }
         >
           <Input
             name="username"
             prefix={<UserOutlined className="site-form-item-icon" />}
             placeholder="Username"
+            data-testid={"login-form-username-data-id"}
           />
         </Form.Item>
         <Form.Item
@@ -71,19 +72,22 @@ class Register extends Component<DispatchPropsType, StateType> {
             prefix={<LockOutlined className="site-form-item-icon" />}
             type="password"
             placeholder="Password"
+            data-testid={"login-form-password-data-id"}
           />
         </Form.Item>
+
         <Form.Item {...tailLayout}>
           <Button
             type="primary"
             htmlType="submit"
             className="login-form-button"
+            data-testid={"login-form-submit-data-id"}
           >
-            Register
+            Log in
           </Button>
 
-          <Button type="dashed" htmlType="reset" className="login-form-button">
-            Cancel
+          <Button type="dashed" htmlType="submit" className="login-form-button">
+            Register
           </Button>
         </Form.Item>
       </Form>
@@ -92,7 +96,8 @@ class Register extends Component<DispatchPropsType, StateType> {
 }
 
 const mapDispatchThunkToProps = {
-  registerUser: registerWithNameAndPassword,
+  loginWithEmailAndPass: loginWithEmailAndPassword,
+  logout: logout,
 };
 
 const mapStateToProps = (state: RootState) => ({
@@ -101,4 +106,4 @@ const mapStateToProps = (state: RootState) => ({
 
 export default connect(mapStateToProps, {
   ...mapDispatchThunkToProps,
-})(Register);
+})(Login);

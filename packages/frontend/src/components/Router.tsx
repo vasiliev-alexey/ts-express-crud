@@ -8,16 +8,24 @@ import Login from "./Auth/login/Login";
 import AdsList from "./ads/AdsList";
 import Advertisement from "./ads/Advertisement";
 import Register from "./Auth/register/Register";
+import withAuthentication from "./utils/requireAuth";
 
-const Routes = (): // props: ReturnType<typeof mapStateToProps>
-React.ReactElement => (
+const Routes = ({
+  isAuthenticated,
+}: ReturnType<typeof mapStateToProps>): React.ReactElement => (
   <Switch>
     <Switch>
       <Route exact path="/" component={AdsList} />
       <Route path="/login" component={Login} />
       <Route path="/register" component={Register} />
-      <Route path="/newAd" component={Advertisement} />
-      <Route path="/editAd/:id" component={Advertisement} />
+      <Route
+        path="/newAd"
+        component={withAuthentication(Advertisement, isAuthenticated)}
+      />
+      <Route
+        path="/editAd/:id"
+        component={withAuthentication(Advertisement, isAuthenticated)}
+      />
     </Switch>
   </Switch>
 );

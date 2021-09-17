@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import { Editor } from "react-draft-wysiwyg";
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+
 import { convertFromRaw, convertToRaw, EditorState } from "draft-js";
 import { Button, Form, Input } from "antd";
 import postService from "../../api/postService";
 import { RouteComponentProps } from "react-router-dom";
 import { FormInstance } from "antd/es/form";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 const tailLayout = {
   wrapperCol: {
@@ -88,6 +89,7 @@ class Advertisement extends Component<AdsIdProps> {
   render(): React.ReactElement {
     return (
       <Form
+        data-testid={"ad-form-data-id"}
         name="add_ew_post"
         ref={this.#formRef}
         initialValues={{ title: this.state.title, password: "root" }}
@@ -104,6 +106,7 @@ class Advertisement extends Component<AdsIdProps> {
             placeholder="Продам гараж"
             value={this.state.title}
             onChange={this.#handleChangeTitle}
+            data-testid={"ad-form-title-data-id"}
           />
         </Form.Item>
         <Editor
@@ -126,6 +129,7 @@ class Advertisement extends Component<AdsIdProps> {
             name="contacts"
             placeholder="Неизвестная черепаха,  живущая на острове"
             value={this.state.title}
+            data-testid={"ad-form-contacts-data-id"}
           />
         </Form.Item>
         <Form.Item {...tailLayout}>
@@ -133,6 +137,7 @@ class Advertisement extends Component<AdsIdProps> {
             type="primary"
             htmlType="submit"
             className="login-form-button"
+            data-testid={"ad-form-submit-data-id"}
           >
             Подать
           </Button>

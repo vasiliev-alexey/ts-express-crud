@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const path = require("path");
 import "webpack-dev-server";
-// import { Configuration } from 'webpack';
-// import { HtmlWebpackPlugin } from 'html-webpack-plugin';
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 import { TsconfigPathsPlugin } from "tsconfig-paths-webpack-plugin";
@@ -16,6 +14,9 @@ const Dotenv = require("dotenv-webpack");
 interface Configuration extends WebpackConfiguration {
   devServer?: WebpackDevServerConfiguration;
 }
+
+const getTsConfigName = (mode: string) =>
+  mode === "production" ? "tsconfig.prod.json" : "tsconfig.dev.json";
 
 const webpackConfig = (
   env: {
@@ -47,7 +48,11 @@ const webpackConfig = (
     extensions: [".ts", ".tsx", ".js"],
     //TODO waiting on https://github.com/dividab/tsconfig-paths-webpack-plugin/issues/61
     //@ts-ignore
-    plugins: [new TsconfigPathsPlugin()],
+    plugins: [
+      new TsconfigPathsPlugin({
+        configFile: getTsConfigName(arg.mode),
+      }),
+    ],
   },
   output: {
     path: path.join(
@@ -68,6 +73,7 @@ const webpackConfig = (
         loader: "ts-loader",
         options: {
           transpileOnly: true,
+          configFile: getTsConfigName(arg.mode),
         },
         exclude: /dist/,
       },
@@ -120,6 +126,9 @@ const webpackConfig = (
     new ForkTsCheckerWebpackPlugin({
       eslint: {
         files: "./src/**/*.{ts,tsx,js,jsx}", // required - same as command `eslint ./src/**/*.{ts,tsx,js,jsx} --ext .ts,.tsx,.js,.jsx`
+      },
+      typescript: {
+        configFile: getTsConfigName(arg.mode),
       },
     }),
   ],

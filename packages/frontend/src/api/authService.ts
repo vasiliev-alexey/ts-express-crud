@@ -1,5 +1,4 @@
 import axios from "axios";
-import { pathToFileURL } from "url";
 
 class AuthService {
   constructor(private authHost: string) {}
@@ -26,8 +25,6 @@ class AuthService {
     username: string,
     password: string
   ): Promise<{ userID: string; userName: string }> => {
-    console.log("sswwwwwwwwwwwws");
-
     try {
       const response = await axios.post(
         `${this.authHost}/register`,
@@ -53,4 +50,3 @@ class AuthService {
 
 const authService = new AuthService(`${window.location.origin}/auth`);
 export default authService;
-window.location.host;
