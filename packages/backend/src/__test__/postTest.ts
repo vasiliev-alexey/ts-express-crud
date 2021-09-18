@@ -29,7 +29,7 @@ describe("test post routes", function () {
     mongoServer = await MongoMemoryServer.create();
 
     const rndDbName = nanoid();
-
+    process.env.PORT = "4002";
     process.env.MONGO_URL = `${mongoServer.getUri()}${rndDbName}?authSource=admin`;
 
     const mod = await import("../index");
@@ -67,6 +67,28 @@ describe("test post routes", function () {
       .expect("Content-Type", /application\/json/)
       .expect(function (response) {
         expect(response.body[0].title).toBe(rndTitle);
+      })
+      .end(done);
+  });
+
+  it("test  get list  INFO with json", (done) => {
+    process.env.NODE_ENV = "propd";
+    request(server)
+      .get("/post/listInfo")
+      .expect("Content-Type", /application\/json/)
+      .expect(function (response) {
+        expect(response.body.total).toBe(1);
+      })
+      .end(done);
+  });
+
+  it("test  get list  INFO 2", (done) => {
+    process.env.NODE_ENV = "development";
+    request(server)
+      .get("/post/listInfo")
+      .expect("Content-Type", /application\/json/)
+      .expect(function (response) {
+        expect(response.body.total).toBe(1);
       })
       .end(done);
   });
@@ -141,5 +163,13 @@ describe("test post routes", function () {
           })
           .end(done);
       });
+  });
+
+  it("test  html page", (done) => {
+    request(server)
+      .get("/")
+      .expect("Content-Type", /text\/html/)
+      .expect(404)
+      .end(done);
   });
 });

@@ -75,8 +75,6 @@ postsRouter.post("/addComment", authChecker, async (req, res) => {
 
 postsRouter.get("/listInfo", async (req, res) => {
   logger.debug("post", "/listInfo");
-
-  // logger.debug("limit=", limit, typeof limit);
   const dataCnt = await Post.count();
   logger.debug("data ", dataCnt);
   res.status(200).send({ total: dataCnt });

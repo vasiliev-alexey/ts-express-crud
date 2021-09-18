@@ -1,4 +1,4 @@
-import { Button, Card, Pagination, Row, Spin, Tooltip, Alert } from "antd";
+import { Button, Card, Pagination, Spin, Tooltip, Alert, Layout } from "antd";
 import React, { Component } from "react";
 import { RootState } from "../../store/store";
 import { connect } from "react-redux";
@@ -9,6 +9,8 @@ import Comment from "./Comment";
 import { EditOutlined, CommentOutlined, SendOutlined } from "@ant-design/icons";
 import CommentList from "./CommentList";
 import { CommentType } from "./types";
+
+const { Content, Footer } = Layout;
 
 type DispatchPropsType = RouteComponentProps &
   ReturnType<typeof mapStateToProps>;
@@ -50,6 +52,8 @@ class AdsList extends Component<DispatchPropsType> {
   };
 
   render() {
+    const contVh = 85;
+
     if (this.state.isLoading) {
       return (
         <div data-testid={"spin-wait-data-id"}>
@@ -65,8 +69,9 @@ class AdsList extends Component<DispatchPropsType> {
     }
 
     return (
-      <>
-        <Row justify="center" align="middle">
+      <Layout style={{ height: `${contVh}vh` }}>
+        <Footer></Footer>
+        <Content>
           {this.state.data.map((rec) => {
             let d = "";
 
@@ -130,7 +135,7 @@ class AdsList extends Component<DispatchPropsType> {
                     </>
                   )
                 }
-                style={{ width: "80%" }}
+                style={{ width: "100%" }}
                 hoverable
               >
                 <p>Автор: {rec.userName}</p>
@@ -139,18 +144,18 @@ class AdsList extends Component<DispatchPropsType> {
               </Card>
             );
           })}
-        </Row>
+        </Content>
 
-        {this.state.totalPosts > 0 && (
-          <Row justify="center" align="middle">
+        <Footer style={{ textAlign: "center" }}>
+          {this.state.totalPosts > 0 && (
             <Pagination
               defaultCurrent={1}
               total={this.state.totalPosts}
               defaultPageSize={3}
               onChange={this.#getPageData}
             />
-          </Row>
-        )}
+          )}
+        </Footer>
 
         <Comment
           visible={this.state.showAddComment}
@@ -173,7 +178,7 @@ class AdsList extends Component<DispatchPropsType> {
             this.setState({ showListComment: false, comments: [] });
           }}
         ></CommentList>
-      </>
+      </Layout>
     );
   }
 }
