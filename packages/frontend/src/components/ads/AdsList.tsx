@@ -1,4 +1,4 @@
-import { Button, Card, Pagination, Row, Tooltip } from "antd";
+import { Button, Card, Pagination, Row, Spin, Tooltip, Alert } from "antd";
 import React, { Component } from "react";
 import { RootState } from "../../store/store";
 import { connect } from "react-redux";
@@ -24,23 +24,44 @@ type record = {
 
 class AdsList extends Component<DispatchPropsType> {
   state = {
-    isLoading: false,
+    isLoading: true,
     showAddComment: false,
     showListComment: false,
     data: [] as record[],
     commentText: "",
     currentPostId: "",
     comments: [] as CommentType[],
+    totalPosts: 0,
   };
 
   async componentDidMount() {
-    const data = await postService.getPosts();
-    this.setState({ isLoading: true, data: data });
+    const { total } = await postService.getPostsInfo();
+
+    console.log("total", total);
+    this.setState({ totalPosts: total });
+
+    await this.#getPageData(1, 3);
+    this.setState({ isLoading: false });
   }
 
+  #getPageData = async (page: number, pageSize: number): Promise<void> => {
+    const data = await postService.getPosts((page - 1) * pageSize, pageSize);
+    this.setState({ data: data });
+  };
+
   render() {
-    if (!this.state.isLoading) {
-      return <p>wait</p>;
+    if (this.state.isLoading) {
+      return (
+        <div data-testid={"spin-wait-data-id"}>
+          <Spin tip="Уже загружаю...">
+            <Alert
+              message="Рассказал бы анекдот, но забыл"
+              description="Пожалуйста, наберитесь терпения"
+              type="info"
+            />
+          </Spin>
+        </div>
+      );
     }
 
     return (
@@ -120,9 +141,16 @@ class AdsList extends Component<DispatchPropsType> {
           })}
         </Row>
 
-        <Row justify="center" align="middle">
-          <Pagination defaultCurrent={1} total={50} />
-        </Row>
+        {this.state.totalPosts > 0 && (
+          <Row justify="center" align="middle">
+            <Pagination
+              defaultCurrent={1}
+              total={this.state.totalPosts}
+              defaultPageSize={3}
+              onChange={this.#getPageData}
+            />
+          </Row>
+        )}
 
         <Comment
           visible={this.state.showAddComment}

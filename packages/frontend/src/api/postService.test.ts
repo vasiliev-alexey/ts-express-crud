@@ -23,10 +23,36 @@ describe("test postService", () => {
         },
       ])
     );
-    await postService.getPosts();
+    await postService.getPosts(0, 3);
 
-    expect(mocked).toBeCalledWith("http://localhost/post/list");
+    expect(mocked).toBeCalledWith("http://localhost/post/list", {
+      params: { limit: 3, start: 0 },
+    });
   });
+
+  it("check getPost if", async () => {
+    const mocked = mockedAxios.get.mockReturnValueOnce(
+      Promise.resolve([
+        {
+          id: "",
+          _id: "",
+          userName: "",
+          title: "",
+          body: "",
+          contacts: "",
+        },
+      ])
+    );
+
+    const rndId = nanoid(10);
+
+    await postService.getById(rndId);
+
+    expect(mocked).toBeCalledWith("http://localhost/post/ad", {
+      params: { id: rndId },
+    });
+  });
+
   it("check newPost", async () => {
     const mocked = mockedAxios.post.mockReturnValueOnce(
       Promise.resolve([

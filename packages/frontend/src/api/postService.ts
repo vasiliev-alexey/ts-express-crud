@@ -10,6 +10,10 @@ export interface PostDtoType {
   comments?: { _id?: string; userName: string; body: string }[];
 }
 
+export interface PostsInfoDtoType {
+  total: number;
+}
+
 class PostService {
   constructor(private authHost: string) {}
 
@@ -46,8 +50,16 @@ class PostService {
     return;
   };
 
-  getPosts = async (): Promise<PostDtoType[]> => {
-    const response = await axios.get<PostDtoType[]>(`${this.authHost}/list`);
+  getPosts = async (start: number, limit: number): Promise<PostDtoType[]> => {
+    const response = await axios.get<PostDtoType[]>(`${this.authHost}/list`, {
+      params: { start, limit },
+    });
+    return response.data;
+  };
+  getPostsInfo = async (): Promise<PostsInfoDtoType> => {
+    const response = await axios.get<PostsInfoDtoType>(
+      `${this.authHost}/listInfo`
+    );
     return response.data;
   };
 

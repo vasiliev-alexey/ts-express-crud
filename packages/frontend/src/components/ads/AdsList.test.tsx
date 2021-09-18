@@ -16,8 +16,8 @@ const mockStore = configureStore(middlewares);
 
 describe("AdsList comp is function", () => {
   beforeEach(() => {
-    // jest.resetAllMocks();
-    // jest.restoreAllMocks();
+    jest.resetAllMocks();
+    jest.restoreAllMocks();
   });
 
   test("AdsList is function", () => {
@@ -33,6 +33,10 @@ describe("AdsList comp is function", () => {
     };
     const store = mockStore(initialState);
 
+    jest.spyOn(postService, "getPostsInfo").mockResolvedValue({
+      total: 10,
+    });
+
     jest.spyOn(postService, "getPosts").mockResolvedValue([]);
 
     render(
@@ -42,7 +46,7 @@ describe("AdsList comp is function", () => {
         </Provider>
       </MemoryRouter>
     );
-    expect(screen.getByText("wait")).toBeInTheDocument();
+    expect(screen.getByTestId("spin-wait-data-id")).toBeInTheDocument();
   });
 });
 describe("AdsList with data", () => {
@@ -54,39 +58,7 @@ describe("AdsList with data", () => {
       },
     };
 
-    jest.spyOn(postService, "getPosts").mockResolvedValue([
-      {
-        id: "1",
-        _id: "1",
-        title: "string",
-        body: JSON.stringify(
-          convertToRaw(EditorState.createEmpty().getCurrentContent())
-        ),
-        contacts: "contacts",
-      },
-    ]);
-
-    const store = mockStore(initialState);
-
-    render(
-      <MemoryRouter>
-        <Provider store={store}>
-          <AdsList />
-        </Provider>
-      </MemoryRouter>
-    );
-    await new Promise((r) => setTimeout(r, 1));
-  });
-
-  test("AdsList  button test", async () => {
-    const initialState = {
-      auth: {
-        userName: "root",
-        isAuthenticated: true,
-      },
-    };
-
-    jest.spyOn(postService, "getPosts").mockResolvedValue([
+    const postDataReq = jest.spyOn(postService, "getPosts").mockResolvedValue([
       {
         id: "1",
         _id: "1",
@@ -101,6 +73,56 @@ describe("AdsList with data", () => {
       },
     ]);
 
+    const postInfoReq = jest
+      .spyOn(postService, "getPostsInfo")
+      .mockResolvedValue({
+        total: 10,
+      });
+
+    const store = mockStore(initialState);
+
+    render(
+      <MemoryRouter>
+        <Provider store={store}>
+          <AdsList />
+        </Provider>
+      </MemoryRouter>
+    );
+    await new Promise((r) => setTimeout(r, 100));
+
+    expect(postInfoReq).toBeCalled();
+    expect(postDataReq).toBeCalledWith(0, 3);
+  });
+
+  test("AdsList  button test", async () => {
+    const initialState = {
+      auth: {
+        userName: "root",
+        isAuthenticated: true,
+      },
+    };
+
+    const postDataReq = jest.spyOn(postService, "getPosts").mockResolvedValue([
+      {
+        id: "1",
+        _id: "1",
+        title: "string",
+        userName: "root",
+        body: JSON.stringify(
+          convertToRaw(EditorState.createEmpty().getCurrentContent())
+        ),
+        contacts: "contacts",
+
+        comments: [{ _id: "1", userName: "root", body: "body" }],
+      },
+    ]);
+
+    const postInfoReq = jest
+      .spyOn(postService, "getPostsInfo")
+      .mockResolvedValue({
+        total: 10,
+      });
+
     const store = mockStore(initialState);
     const history = createMemoryHistory();
     render(
@@ -110,7 +132,10 @@ describe("AdsList with data", () => {
         </Provider>
       </Router>
     );
-    await new Promise((r) => setTimeout(r, 1));
+    await new Promise((r) => setTimeout(r, 100));
+
+    expect(postInfoReq).toBeCalled();
+    expect(postDataReq).toBeCalledWith(0, 3);
 
     const btnEdit = screen.getByTestId("modal-btn-edit-data-id");
     const btnAddComment = screen.getByTestId("modal-btn-add-comment-data-id");
