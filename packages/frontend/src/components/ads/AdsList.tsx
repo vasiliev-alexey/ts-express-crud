@@ -39,7 +39,6 @@ class AdsList extends Component<DispatchPropsType> {
   async componentDidMount() {
     const { total } = await postService.getPostsInfo();
 
-    console.log("total", total);
     this.setState({ totalPosts: total });
 
     await this.#getPageData(1, 3);
