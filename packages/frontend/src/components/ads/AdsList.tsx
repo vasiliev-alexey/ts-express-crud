@@ -85,19 +85,20 @@ class AdsList extends Component<DispatchPropsType> {
                 key={rec._id}
                 title={rec.title}
                 extra={
-                  this.props.isAuthenticated &&
-                  this.props.currentUserName === rec.userName && (
+                  this.props.isAuthenticated && (
                     <>
-                      <Tooltip title="Редактировать" color="cyan">
-                        <Button
-                          data-testid={"modal-btn-edit-data-id"}
-                          onClick={() => {
-                            this.props.history.push(`/editAd/${rec._id}`);
-                          }}
-                          type="primary"
-                          icon={<EditOutlined />}
-                        ></Button>
-                      </Tooltip>
+                      {this.props.currentUserName === rec.userName && (
+                        <Tooltip title="Редактировать" color="cyan">
+                          <Button
+                            data-testid={"modal-btn-edit-data-id"}
+                            onClick={() => {
+                              this.props.history.push(`/editAd/${rec._id}`);
+                            }}
+                            type="primary"
+                            icon={<EditOutlined />}
+                          ></Button>
+                        </Tooltip>
+                      )}
                       <Tooltip title="Добавить комментарий" color="green">
                         <Button
                           data-testid={"modal-btn-add-comment-data-id"}
@@ -111,7 +112,6 @@ class AdsList extends Component<DispatchPropsType> {
                           icon={<SendOutlined />}
                         />
                       </Tooltip>
-
                       {rec.comments && rec.comments.length > 0 && (
                         <Tooltip title="Комментарии" color="geekblue">
                           <Button
