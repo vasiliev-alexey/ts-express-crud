@@ -1,4 +1,4 @@
-import { Button, Card, Pagination, Row, Tooltip } from "antd";
+import { Button, Card, Pagination, Spin, Tooltip, Alert, Layout } from "antd";
 import React, { Component } from "react";
 import { RootState } from "../../store/store";
 import { connect } from "react-redux";
@@ -9,6 +9,8 @@ import Comment from "./Comment";
 import { EditOutlined, CommentOutlined, SendOutlined } from "@ant-design/icons";
 import CommentList from "./CommentList";
 import { CommentType } from "./types";
+
+const { Content, Footer } = Layout;
 
 type DispatchPropsType = RouteComponentProps &
   ReturnType<typeof mapStateToProps>;
@@ -24,28 +26,51 @@ type record = {
 
 class AdsList extends Component<DispatchPropsType> {
   state = {
-    isLoading: false,
+    isLoading: true,
     showAddComment: false,
     showListComment: false,
     data: [] as record[],
     commentText: "",
     currentPostId: "",
     comments: [] as CommentType[],
+    totalPosts: 0,
   };
 
   async componentDidMount() {
-    const data = await postService.getPosts();
-    this.setState({ isLoading: true, data: data });
+    const { total } = await postService.getPostsInfo();
+
+    this.setState({ totalPosts: total });
+
+    await this.#getPageData(1, 3);
+    this.setState({ isLoading: false });
   }
 
+  #getPageData = async (page: number, pageSize: number): Promise<void> => {
+    const data = await postService.getPosts((page - 1) * pageSize, pageSize);
+    this.setState({ data: data });
+  };
+
   render() {
-    if (!this.state.isLoading) {
-      return <p>wait</p>;
+    const contVh = 85;
+
+    if (this.state.isLoading) {
+      return (
+        <div data-testid={"spin-wait-data-id"}>
+          <Spin tip="Уже загружаю...">
+            <Alert
+              message="Рассказал бы анекдот, но забыл"
+              description="Пожалуйста, наберитесь терпения"
+              type="info"
+            />
+          </Spin>
+        </div>
+      );
     }
 
     return (
-      <>
-        <Row justify="center" align="middle">
+      <Layout style={{ height: `${contVh}vh` }}>
+        <Footer></Footer>
+        <Content>
           {this.state.data.map((rec) => {
             let d = "";
 
@@ -64,19 +89,20 @@ class AdsList extends Component<DispatchPropsType> {
                 key={rec._id}
                 title={rec.title}
                 extra={
-                  this.props.isAuthenticated &&
-                  this.props.currentUserName === rec.userName && (
+                  this.props.isAuthenticated && (
                     <>
-                      <Tooltip title="Редактировать" color="cyan">
-                        <Button
-                          data-testid={"modal-btn-edit-data-id"}
-                          onClick={() => {
-                            this.props.history.push(`/editAd/${rec._id}`);
-                          }}
-                          type="primary"
-                          icon={<EditOutlined />}
-                        ></Button>
-                      </Tooltip>
+                      {this.props.currentUserName === rec.userName && (
+                        <Tooltip title="Редактировать" color="cyan">
+                          <Button
+                            data-testid={"modal-btn-edit-data-id"}
+                            onClick={() => {
+                              this.props.history.push(`/editAd/${rec._id}`);
+                            }}
+                            type="primary"
+                            icon={<EditOutlined />}
+                          ></Button>
+                        </Tooltip>
+                      )}
                       <Tooltip title="Добавить комментарий" color="green">
                         <Button
                           data-testid={"modal-btn-add-comment-data-id"}
@@ -90,7 +116,6 @@ class AdsList extends Component<DispatchPropsType> {
                           icon={<SendOutlined />}
                         />
                       </Tooltip>
-
                       {rec.comments && rec.comments.length > 0 && (
                         <Tooltip title="Комментарии" color="geekblue">
                           <Button
@@ -109,7 +134,7 @@ class AdsList extends Component<DispatchPropsType> {
                     </>
                   )
                 }
-                style={{ width: "80%" }}
+                style={{ width: "100%" }}
                 hoverable
               >
                 <p>Автор: {rec.userName}</p>
@@ -118,11 +143,18 @@ class AdsList extends Component<DispatchPropsType> {
               </Card>
             );
           })}
-        </Row>
+        </Content>
 
-        <Row justify="center" align="middle">
-          <Pagination defaultCurrent={1} total={50} />
-        </Row>
+        <Footer style={{ textAlign: "center" }}>
+          {this.state.totalPosts > 0 && (
+            <Pagination
+              defaultCurrent={1}
+              total={this.state.totalPosts}
+              defaultPageSize={3}
+              onChange={this.#getPageData}
+            />
+          )}
+        </Footer>
 
         <Comment
           visible={this.state.showAddComment}
@@ -145,7 +177,7 @@ class AdsList extends Component<DispatchPropsType> {
             this.setState({ showListComment: false, comments: [] });
           }}
         ></CommentList>
-      </>
+      </Layout>
     );
   }
 }

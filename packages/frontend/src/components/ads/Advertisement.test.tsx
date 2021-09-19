@@ -15,11 +15,6 @@ const middlewares: Middleware[] = [thunk];
 const mockStore = configureStore(middlewares);
 
 describe("Advertisement comp is function", () => {
-  beforeEach(() => {
-    // jest.resetAllMocks();
-    // jest.restoreAllMocks();
-  });
-
   test("Advertisement is function", () => {
     expect(Advertisement).toBeInstanceOf(Object);
   });

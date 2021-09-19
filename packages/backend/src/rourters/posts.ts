@@ -73,9 +73,20 @@ postsRouter.post("/addComment", authChecker, async (req, res) => {
   res.send("success");
 });
 
+postsRouter.get("/listInfo", async (req, res) => {
+  logger.debug("post", "/listInfo");
+  const dataCnt = await Post.count();
+  logger.debug("data ", dataCnt);
+  res.status(200).send({ total: dataCnt });
+});
+
 postsRouter.get("/list", async (req, res) => {
-  logger.debug("post", "/list");
-  const data = await Post.find();
+  logger.debug("post", "/list", req.query);
+
+  const limitData = Number(req.query.limit);
+  const start = Number(req.query.start);
+
+  const data = await Post.find().skip(start).limit(limitData);
   logger.debug("data ", data);
   res.status(200).send(data);
 });

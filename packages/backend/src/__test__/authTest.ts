@@ -88,4 +88,38 @@ describe("test auth routes", function () {
           .end(done);
       });
   });
+
+  it("test  auth logout with Error", (done) => {
+    const agent = request.agent(server);
+
+    agent
+      .post("/auth/login")
+      .send({
+        username: "root",
+        password: "negative",
+      })
+      .expect((da) => {
+        console.log(da.status);
+        expect(da.status).toBe(401);
+      })
+
+      .end(done);
+  });
+
+  it("test  auth logout with Error", (done) => {
+    const agent = request.agent(server);
+
+    agent
+      .post("/auth/login")
+      .send({
+        username: "root",
+        password: "negative",
+      })
+      .expect((da) => {
+        console.log(da.status);
+        expect(da.status).toBe(401);
+      })
+
+      .end(done);
+  });
 });
