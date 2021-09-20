@@ -1,5 +1,5 @@
 [![Build](https://github.com/vasiliev-alexey/ts-express-crud/actions/workflows/sanity-check.yml/badge.svg)](https://github.com/vasiliev-alexey/ts-express-crud/actions/workflows/sanity-check.yml)
-[![codecov](https://codecov.io/gh/vasiliev-alexey/ts-express-crud/branch/dev/readme/graph/badge.svg?token=EF6D40DTZX)](https://codecov.io/gh/vasiliev-alexey/ts-express-crud)
+[![codecov](https://codecov.io/gh/vasiliev-alexey/ts-express-crud/branch/dev/graph/badge.svg?token=EF6D40DTZX)](https://codecov.io/gh/vasiliev-alexey/ts-express-crud)
 
 # Приложение - Доска объявлений
 
