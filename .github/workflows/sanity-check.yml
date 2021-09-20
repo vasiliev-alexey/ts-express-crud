@@ -1,4 +1,4 @@
-name: Sanity Check && Test && Deploy to GHP
+name: Build
 
 on: [pull_request, push]
 
@@ -38,7 +38,10 @@ jobs:
 
       - name: Run  Jest  T-E-S-T
         run: |
-          npm run test
+          npm run test --coverage
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v2.1.0
 
       - name: webpack  build
         run: |
