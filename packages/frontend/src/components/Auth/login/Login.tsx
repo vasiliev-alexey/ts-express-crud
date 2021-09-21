@@ -31,10 +31,6 @@ class Login extends Component<DispatchPropsType, StateType> {
     username: string;
     password: string;
   }) => {
-    // if (this.props.auth.isAuthenticated) {
-    //   this.props.logout();
-    // }
-
     this.props.loginWithEmailAndPass({
       username,
       password,

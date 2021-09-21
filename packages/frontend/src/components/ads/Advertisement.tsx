@@ -63,8 +63,6 @@ class Advertisement extends Component<AdsIdProps> {
     title: string;
     contacts: string;
   }): Promise<void> => {
-    // const adBody = this.state.editorState;
-
     if (this.state.editMode) {
       await postService.editPost({
         id: this.state.adId,
@@ -110,6 +108,7 @@ class Advertisement extends Component<AdsIdProps> {
           />
         </Form.Item>
         <Editor
+          data-testid={"ad-editor-data-id"}
           editorStyle={{ border: "dotted", minHeight: "600px" }}
           editorState={this.state.editorState}
           wrapperClassName="demo-wrapper"
@@ -146,6 +145,7 @@ class Advertisement extends Component<AdsIdProps> {
             type="dashed"
             htmlType="button"
             className="login-form-button"
+            data-testid={"ad-form-close-data-id"}
             onClick={() => {
               this.props.history.push("/");
             }}

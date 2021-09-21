@@ -28,7 +28,7 @@ mongoose.connect(
     useUnifiedTopology: true,
   },
   (err) => {
-    console.log("process.env.MONGO_URL", process.env.MONGO_URL);
+    logger.info("process.env.MONGO_URL", process.env.MONGO_URL);
 
     if (err) throw err;
     logger.info("Connected To Mongo");

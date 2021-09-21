@@ -1,4 +1,8 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
+const {
+  removeDataTestIdTransformer,
+} = require("typescript-transformer-jsx-remove-data-test-id");
+
 const path = require("path");
 import "webpack-dev-server";
 const HtmlWebpackPlugin = require("html-webpack-plugin");
@@ -74,6 +78,9 @@ const webpackConfig = (
         options: {
           transpileOnly: true,
           configFile: getTsConfigName(arg.mode),
+          getCustomTransformers: () => ({
+            before: [removeDataTestIdTransformer()],
+          }),
         },
         exclude: /dist/,
       },

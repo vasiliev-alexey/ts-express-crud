@@ -29,6 +29,23 @@ describe("test postService", () => {
       params: { limit: 3, start: 0 },
     });
   });
+  it("check getPost Info", async () => {
+    const mocked = mockedAxios.get.mockReturnValueOnce(
+      Promise.resolve([
+        {
+          id: "",
+          _id: "",
+          userName: "",
+          title: "",
+          body: "",
+          contacts: "",
+        },
+      ])
+    );
+    await postService.getPostsInfo();
+
+    expect(mocked).toBeCalledWith("http://localhost/post/listInfo");
+  });
 
   it("check getPost if", async () => {
     const mocked = mockedAxios.get.mockReturnValueOnce(
@@ -53,18 +70,21 @@ describe("test postService", () => {
     });
   });
 
-  it("check newPost", async () => {
+  it("check newPost without err", async () => {
     const mocked = mockedAxios.post.mockReturnValueOnce(
-      Promise.resolve([
-        {
-          id: "",
-          _id: "",
-          userName: "",
-          title: "",
-          body: "",
-          contacts: "",
-        },
-      ])
+      Promise.resolve({
+        status: 301,
+        data: [
+          {
+            id: "",
+            _id: "",
+            userName: "",
+            title: "",
+            body: "",
+            contacts: "",
+          },
+        ],
+      })
     );
     const rnd = nanoid().toString();
 
@@ -83,6 +103,41 @@ describe("test postService", () => {
       { withCredentials: true }
     );
   });
+
+  it("check newPost with err", async () => {
+    const mocked = mockedAxios.post.mockReturnValueOnce(
+      Promise.resolve({
+        status: 404,
+        data: [
+          {
+            id: "",
+            _id: "",
+            userName: "",
+            title: "",
+            body: "",
+            contacts: "",
+          },
+        ],
+      })
+    );
+    const rnd = nanoid().toString();
+
+    await postService.newPost({
+      id: rnd,
+      _id: "",
+      userName: "",
+      title: "",
+      body: rnd,
+      contacts: "",
+    });
+
+    expect(mocked).toBeCalledWith(
+      "http://localhost/post/new",
+      { body: rnd, contacts: "", title: "" },
+      { withCredentials: true }
+    );
+  });
+
   it("check editPost", async () => {
     const mocked = mockedAxios.post.mockReturnValueOnce(
       Promise.resolve([
