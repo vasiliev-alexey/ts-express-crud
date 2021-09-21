@@ -99,7 +99,6 @@ describe("test auth routes", function () {
         password: "negative",
       })
       .expect((da) => {
-        console.log(da.status);
         expect(da.status).toBe(401);
       })
 
@@ -116,7 +115,6 @@ describe("test auth routes", function () {
         password: "negative",
       })
       .expect((da) => {
-        console.log(da.status);
         expect(da.status).toBe(401);
       })
 

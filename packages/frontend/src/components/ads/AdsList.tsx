@@ -51,8 +51,6 @@ class AdsList extends Component<DispatchPropsType> {
   };
 
   render() {
-    const contVh = 85;
-
     if (this.state.isLoading) {
       return (
         <div data-testid={"spin-wait-data-id"}>
@@ -68,7 +66,7 @@ class AdsList extends Component<DispatchPropsType> {
     }
 
     return (
-      <Layout style={{ height: `${contVh}vh` }}>
+      <Layout className="ads-list-layout">
         <Footer></Footer>
         <Content>
           {this.state.data.map((rec) => {
@@ -86,6 +84,7 @@ class AdsList extends Component<DispatchPropsType> {
 
             return (
               <Card
+                className="ads-list-card-style"
                 key={rec._id}
                 title={rec.title}
                 extra={
@@ -134,7 +133,6 @@ class AdsList extends Component<DispatchPropsType> {
                     </>
                   )
                 }
-                style={{ width: "100%" }}
                 hoverable
               >
                 <p>Автор: {rec.userName}</p>
@@ -145,7 +143,7 @@ class AdsList extends Component<DispatchPropsType> {
           })}
         </Content>
 
-        <Footer style={{ textAlign: "center" }}>
+        <Footer className="site-layout-footer">
           {this.state.totalPosts > 0 && (
             <Pagination
               defaultCurrent={1}

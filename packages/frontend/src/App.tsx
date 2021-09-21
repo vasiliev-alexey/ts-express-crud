@@ -19,13 +19,12 @@ class App extends Component<ReturnType<typeof mapStateToProps>> {
           <Router>
             <SiteHeader />
           </Router>
-          <Content style={{ padding: "0 50px", minHeight: "750px" }}>
-            {/*<div className="site-layout-content">Content</div>*/}
+          <Content className="site-layout-content">
             <Router>
               <Routes />
             </Router>
           </Content>
-          <Footer style={{ textAlign: "center" }}>
+          <Footer className="site-layout-footer">
             Здесь могла быть ваша реклама
           </Footer>
         </Layout>

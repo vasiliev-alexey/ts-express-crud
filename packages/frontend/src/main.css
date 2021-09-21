@@ -21,8 +21,24 @@
 
 .site-layout-content {
   min-height: 750px;
-  padding: 24px;
+  padding: 0 50px;
   background: #fff;
+}
+.site-layout-footer {
+  text-align: center;
+}
+
+.ads-list-layout {
+  height: 85vh;
+}
+.ads-list-card-style {
+  width: 100%;
+}
+.register-form-data-error {
+  color: red;
+}
+.header-avatar {
+  backgroundcolor: "#87d068";
 }
 
 #components-form-demo-normal-login .login-form {

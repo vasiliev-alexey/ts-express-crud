@@ -56,7 +56,7 @@ class Register extends Component<DispatchPropsType, StateType> {
             this.props.auth.errorMessage && (
               <p
                 data-testid={"register-form-data-error-id"}
-                style={{ color: "red" }}
+                className="register-form-data-error"
               >
                 {this.props.auth.errorMessage}
               </p>

@@ -33,9 +33,7 @@ export class SiteHeader extends Component<
               <>
                 <Avatar
                   data-testid={"header-with-auth-data-id"}
-                  style={{
-                    backgroundColor: "#87d068",
-                  }}
+                  className="header-avatar"
                   icon={<UserOutlined />}
                 ></Avatar>
               </>
