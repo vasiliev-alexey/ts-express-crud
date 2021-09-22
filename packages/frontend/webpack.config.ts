@@ -98,7 +98,7 @@ const webpackConfig = (
             context: "src",
           },
         },
-        include: [path.resolve(__dirname, "src/img")],
+        //include: [path.resolve(__dirname, "../public")],
       },
 
       {

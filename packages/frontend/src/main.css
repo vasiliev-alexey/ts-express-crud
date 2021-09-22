@@ -23,10 +23,12 @@
   min-height: 750px;
   padding: 0 50px;
   background: #fff;
+  max-width: 100%;
 }
 .site-layout-footer {
   text-align: center;
 }
+
 
 .ads-list-layout {
   height: 85vh;
@@ -60,4 +62,18 @@
 
 .ant-card {
   margin-bottom: 30px;
+}
+
+.chat-icon {
+  fontSize: 64px;
+  color: #08c;
+  padding-bottom: 15px;
+}
+
+.chat-modal-dialog {
+  position: absolute;
+  top: 60%;
+  left: 80%;
+
+  transform: translate(-50%, -50%) !important;
 }
