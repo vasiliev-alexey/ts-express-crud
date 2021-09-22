@@ -3,9 +3,11 @@ import { Col, Modal, Row, Tooltip, Layout } from "antd";
 import { MessageFilled } from "@ant-design/icons";
 
 import Chat from "../components/chat/Chat";
+import { RootState } from "../store/store";
+import { connect } from "react-redux";
 const Footer = Layout.Footer;
 
-class SiteFooter extends React.Component {
+class SiteFooter extends React.Component<ReturnType<typeof mapStateToProps>> {
   state = { isModalVisible: false };
 
   render(): React.ReactElement {
@@ -14,17 +16,18 @@ class SiteFooter extends React.Component {
         <Footer className="site-layout-footer">
           <Row>
             <Col span={21}> Здесь могла быть ваша реклама</Col>
-            <Col span={3}>
-              <Tooltip title="Начать чат с оператором" color="cyan">
-                <MessageFilled
-                  style={{ fontSize: "64px", color: "#08c" }}
-                  onClick={() => this.setState({ isModalVisible: true })}
-                />
-              </Tooltip>
-            </Col>
+            {this.props.isAuthenticated && (
+              <Col span={3}>
+                <Tooltip title="Начать чат с оператором" color="cyan">
+                  <MessageFilled
+                    style={{ fontSize: "64px", color: "#08c" }}
+                    onClick={() => this.setState({ isModalVisible: true })}
+                  />
+                </Tooltip>
+              </Col>
+            )}
           </Row>
         </Footer>
-
         <Modal
           className="chat-modal-dialog"
           title="Чат с оператором"
@@ -35,9 +38,14 @@ class SiteFooter extends React.Component {
         >
           <Chat />
         </Modal>
+        )
       </>
     );
   }
 }
 
-export default SiteFooter;
+const mapStateToProps = (state: RootState) => ({
+  userName: state.auth.userName,
+  isAuthenticated: state.auth.isAuthenticated,
+});
+export default connect(mapStateToProps)(SiteFooter);

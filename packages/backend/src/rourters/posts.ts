@@ -87,7 +87,6 @@ postsRouter.get("/list", async (req, res) => {
   const start = Number(req.query.start);
 
   const data = await Post.find().skip(start).limit(limitData);
-  logger.debug("data ", data);
   res.status(200).send(data);
 });
 
