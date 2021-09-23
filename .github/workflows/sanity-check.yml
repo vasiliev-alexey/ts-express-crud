@@ -47,9 +47,18 @@ jobs:
         run: |
           npm run build
 
-      - name: Deploy 🚀
+      - name: Deploy to Prod 🚀
+        if: ${{ github.ref == 'refs/heads/dev' }}
         uses: akhileshns/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: ${{secrets.HEROKU_APP_NAME}}
+          heroku_email: ${{secrets.HEROKU_EMAIL}}
+
+      - name: Deploy to Stage 🚀
+        if: ${{ github.ref != 'refs/heads/dev' }}
+        uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: ${{secrets.HEROKU_APP_NAME_STAGE}}
           heroku_email: ${{secrets.HEROKU_EMAIL}}
