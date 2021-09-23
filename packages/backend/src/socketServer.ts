@@ -24,6 +24,12 @@ export function createSocketServer(httpServer: http.Server): Server {
       socket.broadcast.to(socket.id).emit("message", "for your eyes only");
     });
 
+    socket.on("GET_INIT_MESSAGES", (data) => {
+      logger.info(`work it`, data);
+
+      socket.emit("chat/syncMessages", "for your eyes only");
+    });
+
     socket.on("disconnect", () => {
       logger.info(`disconnect  client${socket.id}`);
     });

@@ -35,6 +35,7 @@ class SiteFooter extends React.Component<ReturnType<typeof mapStateToProps>> {
           onOk={() => this.setState({ isModalVisible: false })}
           onCancel={() => this.setState({ isModalVisible: false })}
           bodyStyle={{ height: "50vh" }}
+          footer={null}
         >
           <Chat />
         </Modal>

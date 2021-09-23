@@ -1,15 +1,14 @@
+import { store } from "../store/store";
 import io from "socket.io-client";
+import { serverSync } from "../store/chatSlice";
 const socket = io();
 
-// httpServer.listen(3000);
-
-socket.on("connect", () => {
-  socket.emit("storeClientInfo", { customId: "000CustomIdHere0000" });
-});
-
 class WsService {
-  test() {
-    socket.emit("go go", "data");
+  constructor() {
+    socket.on("chat/syncMessages", (data) => {
+      console.log("chat/syncMessages", data);
+      store.dispatch(serverSync(data));
+    });
   }
 
   sendActionToServer(data: { type: string; payload: Record<string, unknown> }) {

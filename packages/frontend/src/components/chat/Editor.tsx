@@ -6,6 +6,7 @@ const { TextArea } = Input;
 type PropsType = {
   handleChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   value: string;
+  chatStarted: boolean;
   submitting:
     | boolean
     | {
@@ -17,6 +18,11 @@ type PropsType = {
 
 class Editor extends React.Component<PropsType> {
   render(): React.ReactElement {
+    let btnLabel = this.props.chatStarted
+      ? "Отправить сообщение"
+      : "Начать чат";
+    btnLabel = this.props.submitting ? "Отправляется" : btnLabel;
+
     return (
       <>
         <Form.Item>
@@ -33,7 +39,7 @@ class Editor extends React.Component<PropsType> {
             onClick={this.props.handleSubmit}
             type="primary"
           >
-            Add Comment
+            {btnLabel}
           </Button>
         </Form.Item>
       </>
