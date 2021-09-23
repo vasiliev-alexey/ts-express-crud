@@ -14,6 +14,8 @@ import express from "express";
 import * as path from "path";
 import { Logger } from "tslog";
 
+import createSocketServer from "./socketServer";
+
 const LocalStrategy = passportLocal.Strategy;
 const logger: Logger = new Logger({ name: "server" });
 
@@ -109,7 +111,34 @@ app.get("*", (req, res) => {
 });
 
 const server = app.listen(process.env.PORT || 4000, () => {
-  logger.info("Server Started");
+  logger.info("Server Started on Port:", process.env.PORT || 4000);
 });
+
+// socket
+// export const io = new Server(server, {
+//   cors: {
+//     origin: "*",
+//   },
+// });
+//
+// io.on("connect", (socket: Socket) => {
+//   logger.info(`connected client with id: ${socket.id}`);
+//
+//   socket.on("connect", () => {
+//     logger.info(`disconnect  client${socket.id}`);
+//   });
+//
+//   socket.on("SEND_MESSAGE", (data) => {
+//     logger.info(`work it`, data);
+//
+//     socket.broadcast.to(socket.id).emit("message", "for your eyes only");
+//   });
+//
+//   socket.on("disconnect", () => {
+//     logger.info(`disconnect  client${socket.id}`);
+//   });
+// });
+
+createSocketServer(server);
 
 export default server;

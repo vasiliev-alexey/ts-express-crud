@@ -29,7 +29,6 @@
   text-align: center;
 }
 
-
 .ads-list-layout {
   height: 85vh;
 }
@@ -65,7 +64,7 @@
 }
 
 .chat-icon {
-  fontSize: 64px;
+  fontsize: 64px;
   color: #08c;
   padding-bottom: 15px;
 }
