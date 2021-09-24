@@ -1,39 +1,30 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { AnyAction, createReducer, PayloadAction } from "@reduxjs/toolkit";
 
-type MessageType = {
-  messageBody: string;
-};
+interface ChatState {
+  messages: string[];
+  incomingMessage: string;
+}
 
-const initState = {
-  messages: [{ messageBody: "data" }] as MessageType[],
-};
+const initialState = { messages: [] } as ChatState;
 
-const chatSlice = createSlice({
-  name: "chat",
-  initialState: initState,
-  reducers: {
-    resetState: () => {
-      return initState;
-    },
+function isPendingAction(action: AnyAction): action is AnyAction {
+  return action.type === "REDUX_WEBSOCKET::SEND";
+}
+function isIncomeMessage(
+  action: AnyAction
+): action is PayloadAction<{ message: string }> {
+  return action.type === "REDUX_WEBSOCKET::MESSAGE";
+}
 
-    sendMessage: () => {
-      console.log("sendMessage");
-    },
-
-    serverSync: (state, action) => {
-      state.messages.push(action.payload);
-
-      return state;
-    },
-    initMessage: (state) => {
-      console.log("init msg");
-      // wsService.sendActionToServer({ type: "GET_INIT_MESSAGES", payload: {} });
-      return state;
-    },
-  },
-  // extraReducers: (builder) => {},
+const counterReducer = createReducer(initialState, (builder) => {
+  builder
+    .addMatcher(isPendingAction, () => {
+      //  state.messages.push(action.payload.data);
+    })
+    .addMatcher(isIncomeMessage, (state, action) => {
+      state.messages.push(action.payload.message);
+      state.incomingMessage = action.payload.message;
+    });
 });
 
-const { reducer, actions } = chatSlice;
-export const { serverSync, sendMessage, resetState, initMessage } = actions;
-export default reducer;
+export default counterReducer;

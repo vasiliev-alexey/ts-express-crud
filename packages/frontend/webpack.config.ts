@@ -43,17 +43,18 @@ const webpackConfig = (
         "Origin, X-Requested-With, Content-Type, Accept",
     },
 
-    proxy: [
-      {
-        context: ["/auth", "/post"],
+    proxy: {
+      "/auth": {
         target: "http://localhost:4000",
       },
-      {
-        context: ["/chat"],
-        target: "ws://localhost:4000/chat",
+      "/post": {
+        target: "http://localhost:4000",
+      },
+      "/chat": {
+        target: "ws://localhost:4000",
         ws: true,
       },
-    ],
+    },
   },
 
   resolve: {

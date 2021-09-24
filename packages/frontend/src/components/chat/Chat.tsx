@@ -9,7 +9,8 @@ import avaCustomer from "../../../public/programmer.png";
 import Editor from "./Editor";
 import { AppDispatch, RootState } from "../../store/store";
 import { connect } from "react-redux";
-import { initMessage, sendMessage } from "../../store/chatSlice";
+import { nanoid } from "@reduxjs/toolkit";
+// import { initMessage, sendMessage } from "../../store/chatSlice";
 
 type DispatchPropsType = ReturnType<typeof actionProps> &
   ReturnType<typeof mapStateToProps>;
@@ -22,11 +23,7 @@ class Chat extends Component<DispatchPropsType> {
   };
 
   componentDidMount() {
-    this.props.connect(
-      //  `ws://localhost:4000/chat`
-      `ws://${window.location.host}/chat`
-    );
-    this.props.initMessage();
+    this.props.connect(`ws://${window.location.host}/chat`);
   }
 
   handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>): void => {
@@ -80,13 +77,15 @@ class Chat extends Component<DispatchPropsType> {
     const messages = this.props.messages.map((msg) => {
       return (
         <Comment
-          key={msg.messageBody}
+          key={nanoid()}
           author={<a>Оператор</a>}
           avatar={customerAvatar}
-          content={<p> {msg.messageBody}</p>}
+          content={<p> {msg}</p>}
         ></Comment>
       );
     });
+
+    console.log("messages", messages);
 
     return (
       <div>
@@ -121,8 +120,8 @@ class Chat extends Component<DispatchPropsType> {
 
 const actionProps = (dispatch: AppDispatch) => {
   return {
-    sendMessage: sendMessage,
-    initMessage: initMessage,
+    // sendMessage: sendMessage,
+    // initMessage: initMessage,
     connect: (url: string) => dispatch(websocketConnect(url)),
     send: (msg: Record<string, unknown>) => {
       console.log("act:", send(msg));

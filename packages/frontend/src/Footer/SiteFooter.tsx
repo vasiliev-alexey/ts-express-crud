@@ -1,14 +1,24 @@
 import React from "react";
 import { Col, Modal, Row, Tooltip, Layout } from "antd";
 import { MessageFilled } from "@ant-design/icons";
-import { Widget } from "react-chat-widget";
+import { addResponseMessage } from "react-chat-widget";
 import Chat from "../components/chat/Chat";
 import { RootState } from "../store/store";
 import { connect } from "react-redux";
+import ClientChat from "../components/chat/EncChat";
 const Footer = Layout.Footer;
 
 class SiteFooter extends React.Component<ReturnType<typeof mapStateToProps>> {
   state = { isModalVisible: false };
+
+  componentDidUpdate(prevProps: Readonly<ReturnType<typeof mapStateToProps>>) {
+    if (prevProps.messages.length !== this.props.messages.length) {
+      this.handleNewUserMessage(
+        this.props.messages[this.props.messages.length - 1]
+      );
+      addResponseMessage(this.props.messages[this.props.messages.length - 1]);
+    }
+  }
 
   handleNewUserMessage = (newMessage: string) => {
     console.log(`New message incoming! ${newMessage}`);
@@ -32,7 +42,7 @@ class SiteFooter extends React.Component<ReturnType<typeof mapStateToProps>> {
               </Col>
             )}
             <Col span={1}>
-              <Widget handleNewUserMessage={this.handleNewUserMessage} />
+              <ClientChat />
             </Col>
           </Row>
         </Footer>
@@ -56,5 +66,6 @@ class SiteFooter extends React.Component<ReturnType<typeof mapStateToProps>> {
 const mapStateToProps = (state: RootState) => ({
   userName: state.auth.userName,
   isAuthenticated: state.auth.isAuthenticated,
+  messages: state.chat.messages,
 });
 export default connect(mapStateToProps)(SiteFooter);

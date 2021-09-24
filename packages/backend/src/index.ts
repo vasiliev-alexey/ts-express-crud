@@ -19,6 +19,8 @@ import WebSocket from "ws";
 const LocalStrategy = passportLocal.Strategy;
 const logger: Logger = new Logger({ name: "server" });
 
+const connMap: WebSocket[] = [];
+
 dotenv.config();
 
 mongoose.connect(
@@ -115,13 +117,19 @@ const server = app.listen(process.env.PORT || 4000, () => {
 });
 
 const wss = new WebSocket.Server({ server, path: "/chat" });
-wss.on("connection", (ws: WebSocket) => {
-  console.log("Client connected.");
-  ws.send("Hi there!");
+wss.on("connection", (ws: WebSocket, req) => {
+  const id = req.headers["sec-websocket-key"];
+  connMap.push(ws);
+  logger.debug("Client connected:", id);
+  //ws.send("Hi there!");
 
   ws.on("message", (data) => {
-    console.log("message", JSON.parse(data.toString()).data);
-    ws.send("Hi there!");
+    const msg = JSON.parse(data.toString()).data;
+
+    logger.debug("connMap", connMap.length);
+
+    logger.debug("message", JSON.parse(data.toString()).data);
+    connMap[1].send(`Hi ${msg}`);
   });
 });
 
