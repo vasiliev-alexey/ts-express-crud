@@ -1,16 +1,17 @@
 import React, { Component } from "react";
 import { Avatar, Comment } from "antd";
-
+import {
+  connect as websocketConnect,
+  send,
+} from "@giantmachines/redux-websocket";
 import avaImg from "../../../public/worker.png";
 import avaCustomer from "../../../public/programmer.png";
-// import moment from "moment";
 import Editor from "./Editor";
-// import wsService from "../../api/wsService";
-import { RootState } from "../../store/store";
+import { AppDispatch, RootState } from "../../store/store";
 import { connect } from "react-redux";
 import { initMessage, sendMessage } from "../../store/chatSlice";
 
-type DispatchPropsType = typeof actionProps &
+type DispatchPropsType = ReturnType<typeof actionProps> &
   ReturnType<typeof mapStateToProps>;
 
 class Chat extends Component<DispatchPropsType> {
@@ -21,6 +22,10 @@ class Chat extends Component<DispatchPropsType> {
   };
 
   componentDidMount() {
+    this.props.connect(
+      //  `ws://localhost:4000/chat`
+      `ws://${window.location.host}/chat`
+    );
     this.props.initMessage();
   }
 
@@ -38,13 +43,15 @@ class Chat extends Component<DispatchPropsType> {
       submitting: true,
       chatStarted: true,
     });
+    console.log("connect", window.location.host);
 
+    this.props.send({ data: this.state.value });
     // wsService.sendActionToServer({
     //   type: "SEND_MESSAGE",
     //   payload: { data: this.state.value },
     // });
 
-    this.props.sendMessage({ type: "SEND_MESSAGE", data: this.state.value });
+    //  this.props.sendMessage({ type: "SEND_MESSAGE", data: this.state.value });
 
     setTimeout(() => {
       this.setState({
@@ -112,9 +119,16 @@ class Chat extends Component<DispatchPropsType> {
   }
 }
 
-const actionProps = {
-  sendMessage: sendMessage,
-  initMessage: initMessage,
+const actionProps = (dispatch: AppDispatch) => {
+  return {
+    sendMessage: sendMessage,
+    initMessage: initMessage,
+    connect: (url: string) => dispatch(websocketConnect(url)),
+    send: (msg: Record<string, unknown>) => {
+      console.log("act:", send(msg));
+      dispatch(send(msg));
+    },
+  };
 };
 
 const mapStateToProps = (state: RootState) => ({

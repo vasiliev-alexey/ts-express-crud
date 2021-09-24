@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Route } from "react-router-dom";
 import { HashRouter as Router } from "react-router-dom";
-
+import "react-chat-widget/lib/styles.css";
 import { connect } from "react-redux";
 import { RootState } from "./store/store";
 

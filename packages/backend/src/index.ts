@@ -14,7 +14,7 @@ import express from "express";
 import * as path from "path";
 import { Logger } from "tslog";
 
-import createSocketServer from "./socketServer";
+import WebSocket from "ws";
 
 const LocalStrategy = passportLocal.Strategy;
 const logger: Logger = new Logger({ name: "server" });
@@ -114,31 +114,15 @@ const server = app.listen(process.env.PORT || 4000, () => {
   logger.info("Server Started on Port:", process.env.PORT || 4000);
 });
 
-// socket
-// export const io = new Server(server, {
-//   cors: {
-//     origin: "*",
-//   },
-// });
-//
-// io.on("connect", (socket: Socket) => {
-//   logger.info(`connected client with id: ${socket.id}`);
-//
-//   socket.on("connect", () => {
-//     logger.info(`disconnect  client${socket.id}`);
-//   });
-//
-//   socket.on("SEND_MESSAGE", (data) => {
-//     logger.info(`work it`, data);
-//
-//     socket.broadcast.to(socket.id).emit("message", "for your eyes only");
-//   });
-//
-//   socket.on("disconnect", () => {
-//     logger.info(`disconnect  client${socket.id}`);
-//   });
-// });
+const wss = new WebSocket.Server({ server, path: "/chat" });
+wss.on("connection", (ws: WebSocket) => {
+  console.log("Client connected.");
+  ws.send("Hi there!");
 
-createSocketServer(server);
+  ws.on("message", (data) => {
+    console.log("message", JSON.parse(data.toString()).data);
+    ws.send("Hi there!");
+  });
+});
 
 export default server;
