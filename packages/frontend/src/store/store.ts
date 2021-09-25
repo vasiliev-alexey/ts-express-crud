@@ -6,13 +6,7 @@ import reducer from "./chatSlice";
 
 const reduxWebsocketMiddleware = reduxWebsocket({
   // prefix: "chat",
-
-  onOpen: () => {
-    console.log("i leved");
-  },
 });
-
-console.log("chatReducer", reducer);
 
 export const store = configureStore({
   reducer: {

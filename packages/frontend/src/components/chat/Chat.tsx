@@ -10,7 +10,6 @@ import Editor from "./Editor";
 import { AppDispatch, RootState } from "../../store/store";
 import { connect } from "react-redux";
 import { nanoid } from "@reduxjs/toolkit";
-// import { initMessage, sendMessage } from "../../store/chatSlice";
 
 type DispatchPropsType = ReturnType<typeof actionProps> &
   ReturnType<typeof mapStateToProps>;
@@ -40,15 +39,8 @@ class Chat extends Component<DispatchPropsType> {
       submitting: true,
       chatStarted: true,
     });
-    console.log("connect", window.location.host);
 
     this.props.send({ data: this.state.value });
-    // wsService.sendActionToServer({
-    //   type: "SEND_MESSAGE",
-    //   payload: { data: this.state.value },
-    // });
-
-    //  this.props.sendMessage({ type: "SEND_MESSAGE", data: this.state.value });
 
     setTimeout(() => {
       this.setState({
@@ -60,18 +52,10 @@ class Chat extends Component<DispatchPropsType> {
 
   render(): React.ReactElement {
     const operatorAvatar = (
-      <Avatar
-        // src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-        src={String(avaImg)}
-        alt="Han Solo"
-      />
+      <Avatar src={String(avaImg)} alt="Operator avatar" />
     );
     const customerAvatar = (
-      <Avatar
-        // src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-        src={String(avaCustomer)}
-        alt="Han Solo"
-      />
+      <Avatar src={String(avaCustomer)} alt="Customer Avatar" />
     );
 
     const messages = this.props.messages.map((msg) => {
@@ -85,22 +69,9 @@ class Chat extends Component<DispatchPropsType> {
       );
     });
 
-    console.log("messages", messages);
-
     return (
       <div>
-        {/*<Comment*/}
-        {/*  author={<a>Оператор</a>}*/}
-        {/*  avatar={customerAvatar}*/}
-        {/*  content={<p>Привет = что вы хотите услышать ? </p>}*/}
-        {/*></Comment>*/}
-        {/*<Comment*/}
-        {/*  content={<p>Привет = что вы хотите услышать ? </p>}*/}
-        {/*  author={<a>Оператор</a>}*/}
-        {/*  avatar={operatorAvatar}*/}
-        {/*></Comment>*/}
-        {/*<Comment content={<p> Есть еще вопросы ? </p>}></Comment>*/}
-        {...messages}
+        {messages}
         <Comment
           avatar={operatorAvatar}
           content={
@@ -120,11 +91,8 @@ class Chat extends Component<DispatchPropsType> {
 
 const actionProps = (dispatch: AppDispatch) => {
   return {
-    // sendMessage: sendMessage,
-    // initMessage: initMessage,
     connect: (url: string) => dispatch(websocketConnect(url)),
     send: (msg: Record<string, unknown>) => {
-      console.log("act:", send(msg));
       dispatch(send(msg));
     },
   };

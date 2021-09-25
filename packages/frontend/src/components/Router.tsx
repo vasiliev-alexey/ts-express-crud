@@ -22,6 +22,7 @@ const Routes = ({
         path="/newAd"
         component={withAuthentication(Advertisement, isAuthenticated)}
       />
+
       <Route
         path="/editAd/:id"
         component={withAuthentication(Advertisement, isAuthenticated)}
