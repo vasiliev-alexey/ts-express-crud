@@ -66,12 +66,12 @@ jobs:
       - name: Set env
         if: ${{ !success() }}
         run:
-          echo ::set-env name=STEPVAR::'Сборка завершена '${{ job.status }} ' смотри логи'
+          echo "APP_VERSION='Сборка завершена '${{ job.status }}' смотри логи'" >> $GITHUB_ENV
 
       - name: Set env failure
         if: ${{ !failure() }}
         run:
-          echo ::set-env name=STEPVAR::'Сборка НЕ завершена '${{ job.status }} ' смотри логи'
+          echo "APP_VERSION='Сборка НЕ завершена '${{ job.status }}' смотри логи'" >> $GITHUB_ENV
 
       - name: Slack Notification
         uses: rtCamp/action-slack-notify@master
