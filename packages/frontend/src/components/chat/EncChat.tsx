@@ -19,7 +19,8 @@ class ClientChat extends Component<DispatchPropsType> {
   };
 
   componentDidMount() {
-    this.props.connect(`ws://${window.location.host}/chat`);
+    const hostname = window.location.origin.replace(/^http/, "ws");
+    this.props.connect(`${hostname}/chat`);
   }
 
   componentDidUpdate(prevProps: Readonly<ReturnType<typeof mapStateToProps>>) {
