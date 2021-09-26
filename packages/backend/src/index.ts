@@ -14,6 +14,8 @@ import express from "express";
 import * as path from "path";
 import { Logger } from "tslog";
 
+import { createChatServer } from "./socketServer";
+
 const LocalStrategy = passportLocal.Strategy;
 const logger: Logger = new Logger({ name: "server" });
 
@@ -63,7 +65,6 @@ passport.use(
     User.findOne(
       { username: username },
       (err: Error, user: DatabaseUserInterface) => {
-        logger.debug("ddddddddddddddddddd");
         if (err) throw err;
         if (!user) return done(null, false);
         bcrypt.compare(password, user.password, (err, result: boolean) => {
@@ -109,7 +110,25 @@ app.get("*", (req, res) => {
 });
 
 const server = app.listen(process.env.PORT || 4000, () => {
-  logger.info("Server Started");
+  logger.info("Server Started on Port:", process.env.PORT || 4000);
 });
+
+// const wss = new WebSocket.Server({ server, path: "/chat" });
+// wss.on("connection", (ws: WebSocket, req) => {
+//   const id = req.headers["sec-websocket-key"];
+//   connMap.push(ws);
+//   logger.debug("Client connected:", id);
+//
+//   ws.on("message", (data) => {
+//     const msg = JSON.parse(data.toString()).data;
+//
+//     logger.debug("connMap", connMap.length);
+//
+//     logger.debug("message", JSON.parse(data.toString()).data);
+//     connMap[1].send(`Hi ${msg}`);
+//   });
+// });
+
+createChatServer(server);
 
 export default server;

@@ -54,7 +54,6 @@ export const registerWithNameAndPassword = createAsyncThunk<
       const user = await authService.RegisterUser(username, password);
       return { userID: user.userID, userName: user.userName };
     } catch (e) {
-      console.log("errww", e);
       return rejectWithValue({ errorMessage: e } as customError);
     }
   }

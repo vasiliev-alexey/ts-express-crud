@@ -44,7 +44,16 @@ const webpackConfig = (
     },
 
     proxy: {
-      "*": "http://localhost:4000",
+      "/auth": {
+        target: "http://localhost:4000",
+      },
+      "/post": {
+        target: "http://localhost:4000",
+      },
+      "/chat": {
+        target: "ws://localhost:4000",
+        ws: true,
+      },
     },
   },
 
@@ -98,7 +107,7 @@ const webpackConfig = (
             context: "src",
           },
         },
-        include: [path.resolve(__dirname, "src/img")],
+        //include: [path.resolve(__dirname, "../public")],
       },
 
       {
